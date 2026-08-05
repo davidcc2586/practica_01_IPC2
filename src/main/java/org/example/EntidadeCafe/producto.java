@@ -35,7 +35,7 @@ public class producto extends EntidadCafe {
         if(cantidadRetirar <= cantidadProducto){
             cantidadProducto = cantidadProducto - cantidadRetirar;
         }else{
-            throw new IllegalArgumentException("No hay suficiente cantidad de producto");
+            throw new CantidadInsuficienteException("No hay suficiente cantidad de producto");
         }
     }
 

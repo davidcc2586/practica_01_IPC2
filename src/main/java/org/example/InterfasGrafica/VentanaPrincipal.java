@@ -1,5 +1,6 @@
 package org.example.InterfasGrafica;
 
+import org.example.InterfasGrafica.ElementosVisuales.VentanaPrincipalCentro;
 import org.example.InterfasGrafica.Menus.*;
 
 import javax.swing.*;
@@ -16,6 +17,8 @@ public class VentanaPrincipal extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jDesktopPane = new JDesktopPane();
+        jDesktopPane.setLayout(new BorderLayout());
+
         this.add(jDesktopPane, BorderLayout.CENTER);
         crearBarraMenu();
     }
@@ -38,4 +41,10 @@ public class VentanaPrincipal extends JFrame {
         this.setJMenuBar(jMenuBar);
     }
 
+    public void crearElementosGraficos() {
+        VentanaPrincipalCentro ventanaPrincipalCentro = new VentanaPrincipalCentro();
+        jDesktopPane.add(ventanaPrincipalCentro, BorderLayout.CENTER);
+        jDesktopPane.revalidate();
+        jDesktopPane.repaint();
+    }
 }

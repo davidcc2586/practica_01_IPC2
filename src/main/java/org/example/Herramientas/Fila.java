@@ -1,5 +1,7 @@
 package org.example.Herramientas;
 
+import org.example.EntidadeCafe.EntidadCafe;
+
 public class Fila<T>{
 
     protected Nodo<T> primero;
@@ -53,11 +55,65 @@ public class Fila<T>{
     }
      */
 
+    public T buscarElemento(int indice){
+        Nodo<T> nodoRecorrer = primero;
+        int indiceActual = 1;
+        while (nodoRecorrer != null){
+            if (indice == indiceActual){
+                return nodoRecorrer.getDato();
+            }
+            indiceActual++;
+            nodoRecorrer = nodoRecorrer.getSiguiente();
+        }
+        return null;
+    }
+
+    public void eliminarElemento(int indice){
+        Nodo<T> nodoRecorrer = primero;
+        int indiceActual = 1;
+        while (nodoRecorrer != null){
+            if (indiceActual == indice){
+                if(nodoRecorrer == primero){
+                    primero = nodoRecorrer.getSiguiente();
+                    if (primero != null) {
+                        primero.setAnterior(null);
+                    } else {
+                        ultimo = null;
+                    }
+                }else if (nodoRecorrer == ultimo) {
+                    ultimo = nodoRecorrer.getAnterior();
+                    ultimo.setSiguiente(null);
+                }else {
+                    nodoRecorrer.getSiguiente().setAnterior(nodoRecorrer.getAnterior());
+                    nodoRecorrer.getAnterior().setSiguiente(nodoRecorrer.getSiguiente());
+                }
+                tamañoFila--;
+                return;
+            }
+            indiceActual++;
+            nodoRecorrer = nodoRecorrer.getSiguiente();
+        }
+    }
+
+    public void limpiarFila(){
+        primero = null;
+        ultimo = null;
+        tamañoFila = 0;
+    }
+
     public boolean ocupada(){
         return primero != null;
     }
 
     public int getTamañoFila() {
         return tamañoFila;
+    }
+
+    public Nodo<T> getPrimero() {
+        return primero;
+    }
+
+    public Nodo<T> getUltimo() {
+        return ultimo;
     }
 }

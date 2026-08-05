@@ -4,39 +4,17 @@ import org.example.EntidadeCafe.EntidadCafe;
 
 public class FilaEntidadCafe extends Fila<EntidadCafe>{
 
-    public EntidadCafe buscarElemento(int identificador){
+    public int buscarElementoIndice(int identificador){
+        int indice = 1;
         Nodo<EntidadCafe> nodoRecorrer = primero;
         while (nodoRecorrer != null){
             if (nodoRecorrer.getDato().getIdentificador() == identificador){
-                return nodoRecorrer.getDato();
+                return indice;
             }
+            indice++;
             nodoRecorrer = nodoRecorrer.getSiguiente();
         }
-        return null;
+        return 0;
     }
 
-    public void eliminarElemento(int identificador){
-        Nodo<EntidadCafe> nodoRecorrer = primero;
-        while (nodoRecorrer != null){
-            if (nodoRecorrer.getDato().getIdentificador() == identificador){
-                if(nodoRecorrer == primero){
-                    primero = nodoRecorrer.getSiguiente();
-                    if (primero != null) {
-                        primero.setAnterior(null);
-                    } else {
-                        ultimo = null;
-                    }
-                }else if (nodoRecorrer == ultimo) {
-                    ultimo = nodoRecorrer.getAnterior();
-                    ultimo.setSiguiente(null);
-                }else {
-                    nodoRecorrer.getSiguiente().setAnterior(nodoRecorrer.getAnterior());
-                    nodoRecorrer.getAnterior().setSiguiente(nodoRecorrer.getSiguiente());
-                }
-               tamañoFila--;
-                return;
-            }
-            nodoRecorrer = nodoRecorrer.getSiguiente();
-        }
-    }
 }

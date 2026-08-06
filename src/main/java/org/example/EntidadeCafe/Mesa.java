@@ -3,6 +3,7 @@ package org.example.EntidadeCafe;
 import org.example.Herramientas.ControlImagen;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Mesa extends EntidadCafe {
 
@@ -21,18 +22,17 @@ public class Mesa extends EntidadCafe {
     public void cambiarEstado(int estado){ // 1 = libre, 2 = ocupado y probablemente 3 = ocupada y  con mesero
 
         ControlImagen controlImagen = new ControlImagen();
-        int largo = 100;
-        int alto = 100;
+        int largo = 220;
+        int alto = 220;
         ImageIcon representacionEstado = null;
         switch (estado){
             case 1:
-                representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",alto,largo);
+                estadoActual = "Libre";
+                representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",largo,alto);
                 break;
             case 2:
-                representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",alto,largo);
-                break;
-            case 3:
-                representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",alto,largo);
+                estadoActual = "Ocupada";
+                representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",largo,alto);
                 break;
             default:
 
@@ -60,7 +60,7 @@ public class Mesa extends EntidadCafe {
     }
 
     public void setCapacidad(int capacidad) {
-        capacidad = capacidad;
+        this.capacidad = capacidad;
     }
 
     public void setEstadoActual(String estadoActual) {

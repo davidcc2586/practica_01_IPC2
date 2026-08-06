@@ -12,6 +12,10 @@ public class IniciarAplicacion {
 
     public void iniciar(){
 
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ignored) {
+        }
         VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
         ventanaPrincipal.setLocationRelativeTo(null);
         ventanaPrincipal.setVisible(true);

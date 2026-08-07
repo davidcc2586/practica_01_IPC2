@@ -21,7 +21,7 @@ public class VentanaPrincipalCentro{
     }
 
     public void construirElementosVentanaPrincipalCentro(){
-        gestorMesas = new GestorMesas(scrollMesas,  escritorioAplicacion.getMenuControlMesa());
+        gestorMesas = new GestorMesas(scrollMesas);
     }
 
     public JPanel getPanelCentral() {

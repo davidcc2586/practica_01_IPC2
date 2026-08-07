@@ -1,11 +1,13 @@
 package org.example.InterfasGrafica;
 
 import org.example.EntidadeCafe.Mesa;
+import org.example.InterfasGrafica.ElementosVisuales.VentanaCentralElementos.GestorMesas;
 import org.example.InterfasGrafica.ElementosVisuales.VentanaCentralElementos.VentanaPrincipalCentro;
 import org.example.InterfasGrafica.Menus.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -15,30 +17,32 @@ public class VentanaPrincipal extends JFrame {
     protected MenuGestionInventario menuGestionInventario;
     protected MenuGestionMenu menuGestionMenu;
     protected MenuGestorMesa menuControlMesa;
-    private VentanaPrincipalCentro ventanaPrincipalCentro;
+    protected VentanaPrincipalCentro ventanaPrincipalCentro;
     protected JMenuBar jMenuBar;
+    private Connection connection;
 
-    public VentanaPrincipal () {
+    public VentanaPrincipal (Connection connection) {
+        this.connection = connection;
         this.setTitle("JavaBeans Café");
         setSize(1000, 750);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jDesktopPane = new JDesktopPane();
-        jDesktopPane.setLayout(new BorderLayout());
+        jDesktopPane.setLayout(new BorderLayout()); /// error del tamaño de las ventanas+
 
         this.add(jDesktopPane, BorderLayout.CENTER);
-        crearBarraMenu();
+        crearElementosGraficos();
+        crearBarraMenu(ventanaPrincipalCentro.getGestorMesas());
     }
 
-    public void crearBarraMenu(){
+    public void crearBarraMenu(GestorMesas gestorMesas){
         jMenuBar = new JMenuBar();
-
+        menuControlMesa = new MenuGestorMesa(jDesktopPane, connection, gestorMesas);
         menuGestionPersonal = new MenuGestionPersonal(jDesktopPane);
         menuGestionNominas = new MenuGestionNominas(jDesktopPane);
         menuGestionInventario = new MenuGestionInventario(jDesktopPane);
         menuGestionMenu = new MenuGestionMenu(jDesktopPane);
-        menuControlMesa = new MenuGestorMesa(jDesktopPane);
 
         jMenuBar.add(menuGestionPersonal.getjMenu());
         jMenuBar.add(menuGestionNominas.getjMenu());
@@ -56,7 +60,7 @@ public class VentanaPrincipal extends JFrame {
         jDesktopPane.repaint();
 
         //
-        Mesa mesa = new Mesa(20,20);
+        Mesa mesa = new Mesa(20,20,"libre");
         ventanaPrincipalCentro.getGestorMesas().agregarMesa(mesa);
         ventanaPrincipalCentro.getGestorMesas().agregarMesa(mesa);
         ventanaPrincipalCentro.getGestorMesas().agregarMesa(mesa);

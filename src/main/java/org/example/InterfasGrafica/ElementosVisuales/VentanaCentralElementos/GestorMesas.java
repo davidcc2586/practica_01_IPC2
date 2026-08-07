@@ -12,13 +12,11 @@ import java.awt.*;
 
 public class GestorMesas {
 
-    protected  MenuGestorMesa menuGestorMesa;
+
     protected JPanel contenedorMesas;
     protected Fila<FichaMesa> fichaMesaFila;
-    public GestorMesas(JScrollPane panelMesas,  MenuGestorMesa menuGestorMesa){
-        this.menuGestorMesa = menuGestorMesa;
+    public GestorMesas(JScrollPane panelMesas){
         fichaMesaFila = new Fila<>();
-        menuGestorMesa.setGestorMesas(this);
         contenedorMesas = new JPanel();
 
         contenedorMesas.setLayout(new GridBagLayout());

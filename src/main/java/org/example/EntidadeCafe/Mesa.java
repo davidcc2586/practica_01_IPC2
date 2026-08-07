@@ -12,26 +12,28 @@ public class Mesa extends EntidadCafe {
     protected String estadoActual;
     protected ImageIcon imagenEstadoMesa;
 
-    public Mesa(int numeroMesa, int capacidad){
+    public Mesa(int numeroMesa, int capacidad, String estado){
         super(numeroMesa);
         this.numeroMesa = numeroMesa;
         this.capacidad = capacidad;
-        cambiarEstado(1);
+        this.estadoActual = estado;
+        cambiarEstado(estado);
     }
 
-    public void cambiarEstado(int estado){ // 1 = libre, 2 = ocupado y probablemente 3 = ocupada y  con mesero
+
+    public void cambiarEstado(String estado){ // 1 = libre, 2 = ocupado y probablemente 3 = ocupada y  con mesero
 
         ControlImagen controlImagen = new ControlImagen();
         int largo = 220;
         int alto = 220;
         ImageIcon representacionEstado = null;
         switch (estado){
-            case 1:
-                estadoActual = "Libre";
+            case "libre":
+                estadoActual = "libre";
                 representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",largo,alto);
                 break;
-            case 2:
-                estadoActual = "Ocupada";
+            case "ocupada":
+                estadoActual = "ocupada";
                 representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",largo,alto);
                 break;
             default:

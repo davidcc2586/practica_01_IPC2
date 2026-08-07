@@ -21,12 +21,10 @@ public class IniciarAplicacion {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ignored) {
         }
-
-        ventanaPrincipal = new VentanaPrincipal();
-        ventanaPrincipal.setLocationRelativeTo(null);
-        ventanaPrincipal.setVisible(true);
-        ventanaPrincipal.crearElementosGraficos();
         ConexionDB conexionDB = new ConexionDB();
         connection = conexionDB.obtenerConexion();
+        ventanaPrincipal = new VentanaPrincipal(connection);
+        ventanaPrincipal.setLocationRelativeTo(null);
+        ventanaPrincipal.setVisible(true);
     }
 }

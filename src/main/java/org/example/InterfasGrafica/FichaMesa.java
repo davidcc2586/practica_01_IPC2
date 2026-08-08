@@ -1,4 +1,4 @@
-package org.example.InterfasGrafica.ElementosVisuales;
+package org.example.InterfasGrafica;
 
 import org.example.EntidadeCafe.Mesa;
 

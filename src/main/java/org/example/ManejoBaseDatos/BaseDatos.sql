@@ -67,4 +67,4 @@ VALUE ('1234567891012', 'Juan Carlos','Perez gomes', 'mesero', 'vespertina', 848
 INSERT INTO Mesa(capacidad)
 VALUE (5);
 INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
-value ('Pan Integral', 'u', 50, 20,1.25, '"/Imagenes/OcupadaConMesero.png"');
+value ('Pan Integral', 'u', 50, 20,1.25, '"/Imagenes/mesaLibre.png"');

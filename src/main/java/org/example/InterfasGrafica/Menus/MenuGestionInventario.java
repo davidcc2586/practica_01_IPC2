@@ -3,12 +3,13 @@ package org.example.InterfasGrafica.Menus;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class MenuGestionInventario extends MenuDeBarra {
 
 
-    public MenuGestionInventario(JDesktopPane panelPrincipal) {
-        super(panelPrincipal, "Gestión de Inventario");
+    public MenuGestionInventario(JDesktopPane panelPrincipal, Connection connection) {
+        super(panelPrincipal, connection,"Gestión de Inventario");
     }
 
     @Override

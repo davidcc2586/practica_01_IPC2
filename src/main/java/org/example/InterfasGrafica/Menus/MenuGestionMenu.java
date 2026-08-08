@@ -3,11 +3,12 @@ package org.example.InterfasGrafica.Menus;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 
 public class MenuGestionMenu extends MenuDeBarra {
 
-    public MenuGestionMenu(JDesktopPane panelPrincipal) {
-        super(panelPrincipal, "Gestion de Menú");
+    public MenuGestionMenu(JDesktopPane panelPrincipal, Connection connection) {
+        super(panelPrincipal,connection,"Gestion de Menú");
     }
 
     @Override

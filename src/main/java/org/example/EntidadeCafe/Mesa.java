@@ -20,7 +20,6 @@ public class Mesa extends EntidadCafe {
         cambiarEstado(estado);
     }
 
-
     public void cambiarEstado(String estado){ // 1 = libre, 2 = ocupado y probablemente 3 = ocupada y  con mesero
 
         ControlImagen controlImagen = new ControlImagen();
@@ -30,11 +29,11 @@ public class Mesa extends EntidadCafe {
         switch (estado){
             case "libre":
                 estadoActual = "libre";
-                representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",largo,alto);
+                representacionEstado = controlImagen.devolverImagen("/Imagenes/mesaLibre.png",largo,alto);
                 break;
             case "ocupada":
                 estadoActual = "ocupada";
-                representacionEstado = controlImagen.devolverImagen("/Imagenes/OcupadaConMesero.png",largo,alto);
+                representacionEstado = controlImagen.devolverImagen("/Imagenes/mesaOcupada.png",largo,alto);
                 break;
             default:
 

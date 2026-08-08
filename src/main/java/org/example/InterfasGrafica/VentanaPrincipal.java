@@ -1,8 +1,5 @@
 package org.example.InterfasGrafica;
 
-import org.example.EntidadeCafe.Mesa;
-import org.example.InterfasGrafica.ElementosVisuales.VentanaCentralElementos.GestorMesas;
-import org.example.InterfasGrafica.ElementosVisuales.VentanaCentralElementos.VentanaPrincipalCentro;
 import org.example.InterfasGrafica.Menus.*;
 
 import javax.swing.*;
@@ -17,32 +14,31 @@ public class VentanaPrincipal extends JFrame {
     protected MenuGestionInventario menuGestionInventario;
     protected MenuGestionMenu menuGestionMenu;
     protected MenuGestorMesa menuControlMesa;
-    protected VentanaPrincipalCentro ventanaPrincipalCentro;
     protected JMenuBar jMenuBar;
     private Connection connection;
 
     public VentanaPrincipal (Connection connection) {
         this.connection = connection;
-        this.setTitle("JavaBeans Café");
-        setSize(1000, 750);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        jDesktopPane = new JDesktopPane();
-        jDesktopPane.setLayout(new BorderLayout()); /// error del tamaño de las ventanas+
-
-        this.add(jDesktopPane, BorderLayout.CENTER);
-        crearElementosGraficos();
-        crearBarraMenu(ventanaPrincipalCentro.getGestorMesas());
+        configuracionVentanaPrincipal();
+        crearBarraMenu();
     }
 
-    public void crearBarraMenu(GestorMesas gestorMesas){
+    public void configuracionVentanaPrincipal(){
+        this.setTitle("JavaBeans Café");
+        this.setSize(1000, 750);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jDesktopPane = new JDesktopPane();
+        this.add(jDesktopPane, BorderLayout.CENTER);
+    }
+
+    public void crearBarraMenu(){
         jMenuBar = new JMenuBar();
-        menuControlMesa = new MenuGestorMesa(jDesktopPane, connection, gestorMesas);
-        menuGestionPersonal = new MenuGestionPersonal(jDesktopPane);
-        menuGestionNominas = new MenuGestionNominas(jDesktopPane);
-        menuGestionInventario = new MenuGestionInventario(jDesktopPane);
-        menuGestionMenu = new MenuGestionMenu(jDesktopPane);
+        menuControlMesa = new MenuGestorMesa(jDesktopPane, connection);
+        menuGestionPersonal = new MenuGestionPersonal(jDesktopPane, connection);
+        menuGestionNominas = new MenuGestionNominas(jDesktopPane, connection);
+        menuGestionInventario = new MenuGestionInventario(jDesktopPane, connection);
+        menuGestionMenu = new MenuGestionMenu(jDesktopPane, connection);
 
         jMenuBar.add(menuGestionPersonal.getjMenu());
         jMenuBar.add(menuGestionNominas.getjMenu());
@@ -53,44 +49,4 @@ public class VentanaPrincipal extends JFrame {
         this.setJMenuBar(jMenuBar);
     }
 
-    public void crearElementosGraficos() {
-        ventanaPrincipalCentro = new VentanaPrincipalCentro(this);
-        jDesktopPane.add(ventanaPrincipalCentro.getPanelCentral(), BorderLayout.CENTER);
-        jDesktopPane.revalidate();
-        jDesktopPane.repaint();
-
-        //
-        Mesa mesa = new Mesa(20,20,"libre");
-        ventanaPrincipalCentro.getGestorMesas().agregarMesa(mesa);
-        ventanaPrincipalCentro.getGestorMesas().agregarMesa(mesa);
-        ventanaPrincipalCentro.getGestorMesas().agregarMesa(mesa);
-        ventanaPrincipalCentro.getGestorMesas().agregarMesa(mesa);
-        ventanaPrincipalCentro.getGestorMesas().agregarMesa(mesa);
-
-    }
-
-
-    public MenuGestionInventario getMenuGestionInventario() {
-        return menuGestionInventario;
-    }
-
-    public MenuGestionMenu getMenuGestionMenu() {
-        return menuGestionMenu;
-    }
-
-    public MenuGestionPersonal getMenuGestionPersonal() {
-        return menuGestionPersonal;
-    }
-
-    public MenuGestionNominas getMenuGestionNominas() {
-        return menuGestionNominas;
-    }
-
-    public MenuGestorMesa getMenuControlMesa() {
-        return menuControlMesa;
-    }
-
-    public VentanaPrincipalCentro getVentanaPrincipalCentro() {
-        return ventanaPrincipalCentro;
-    }
 }

@@ -1,26 +1,26 @@
-package org.example.InterfasGrafica.ElementosVisuales.VentanaCentralElementos;
+package org.example.InterfasGrafica;
 
-import org.example.EntidadeCafe.EntidadCafe;
 import org.example.EntidadeCafe.Mesa;
 import org.example.Herramientas.Fila;
 import org.example.Herramientas.Nodo;
-import org.example.InterfasGrafica.ElementosVisuales.FichaMesa;
-import org.example.InterfasGrafica.Menus.MenuGestorMesa;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GestorMesas {
 
-
     protected JPanel contenedorMesas;
+    protected JScrollPane scrollPane;
     protected Fila<FichaMesa> fichaMesaFila;
-    public GestorMesas(JScrollPane panelMesas){
+
+
+    public GestorMesas(){
         fichaMesaFila = new Fila<>();
         contenedorMesas = new JPanel();
+        scrollPane = new JScrollPane();
 
         contenedorMesas.setLayout(new GridBagLayout());
-        panelMesas.setViewportView(contenedorMesas);
+        scrollPane.setViewportView(contenedorMesas);
     }
 
     public void agregarMesa(Mesa mesa){
@@ -38,19 +38,6 @@ public class GestorMesas {
         fichaMesaFila.agregarDato(nuevaMesaGrafica);
         contenedorMesas.revalidate();
         contenedorMesas.repaint();
-    }
-
-    public void dibujarFicha(FichaMesa fichaMesa){
-
-        GridBagConstraints gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.insets = new Insets(10, 10, 10, 10);
-        gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
-        int cantidad = contenedorMesas.getComponentCount();
-
-        gridBagConstraints.gridx = cantidad % 3;
-        gridBagConstraints.gridy = cantidad / 3;
-
-        contenedorMesas.add(fichaMesa.getFichaMesa(), gridBagConstraints);
     }
 
     public void actualizarMesa(int identificador){
@@ -89,5 +76,22 @@ public class GestorMesas {
         }
         contenedorMesas.revalidate();
         contenedorMesas.repaint();
+    }
+
+    public void dibujarFicha(FichaMesa fichaMesa){
+
+        GridBagConstraints gridBagConstraints = new GridBagConstraints();
+        gridBagConstraints.insets = new Insets(10, 10, 10, 10);
+        gridBagConstraints.anchor = GridBagConstraints.NORTHWEST;
+        int cantidad = contenedorMesas.getComponentCount();
+
+        gridBagConstraints.gridx = cantidad % 3;
+        gridBagConstraints.gridy = cantidad / 3;
+
+        contenedorMesas.add(fichaMesa.getFichaMesa(), gridBagConstraints);
+    }
+
+    public JScrollPane getScrollPane() {
+        return scrollPane;
     }
 }

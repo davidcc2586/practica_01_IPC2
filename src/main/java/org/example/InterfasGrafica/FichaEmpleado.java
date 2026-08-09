@@ -37,12 +37,7 @@ public class FichaEmpleado {
     }
 
     public  void configuracionFicha(){
-        fichaEmpleado.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        Dimension dimension = new Dimension(450, 170);
-        fichaEmpleado.setPreferredSize(dimension);
-        fichaEmpleado.setMaximumSize(dimension);
-        fichaEmpleado.setMinimumSize(dimension);
     }
 
     public JPanel getFichaEmpleado() {

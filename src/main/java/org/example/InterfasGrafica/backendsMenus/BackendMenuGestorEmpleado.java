@@ -1,7 +1,6 @@
 package org.example.InterfasGrafica.backendsMenus;
 
 import org.example.EntidadeCafe.Empleado;
-import org.example.EntidadeCafe.Mesa;
 import org.example.Herramientas.ControlImagen;
 import org.example.Herramientas.Fila;
 import org.example.Herramientas.FilaEntidadCafe;
@@ -14,7 +13,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class BackendMenuGestorEmpleado {
@@ -36,6 +34,7 @@ public class BackendMenuGestorEmpleado {
         empleadoDB.agregarEmpleadoBaseDatos();
     }
 
+    //ventana NO.1
     public void controlEmpleados(){
         JInternalFrame internalFrame = new JInternalFrame("Control de Mesas", true, true, true, true);
         internalFrame.setSize(480, 475);
@@ -51,6 +50,7 @@ public class BackendMenuGestorEmpleado {
         }
     }
 
+    //ventana NO.2
     public void agregarNuevoEmpleado(){
         JInternalFrame internalFrame = new JInternalFrame("Agregar Nuevo Empleado", true, true, true, true);
         internalFrame.setSize(1000, 500);
@@ -127,9 +127,10 @@ public class BackendMenuGestorEmpleado {
         }
     }
 
+    //ventana NO.3
     public void eliminarDeshabilitarEmpleado(){
         JInternalFrame jInternalFrame = new JInternalFrame("Eliminar y Desabilitar Empleados", true, true,true,true);
-        jInternalFrame.setSize(1300,400);
+        jInternalFrame.setSize(1300,350);
         int x = (panelPrincipal.getWidth()-1300) / 2;
         int y = (panelPrincipal.getHeight()-400) / 2;
         jInternalFrame.setLocation(x, y);
@@ -137,27 +138,39 @@ public class BackendMenuGestorEmpleado {
 
         JScrollPane jScrollPane = new JScrollPane();
 
-
         JPanel jpanelEmpleados = new JPanel();
-        jpanelEmpleados.setLayout(new GridLayout(0,7));
-        jpanelEmpleados.add(new JLabel("Empleados de la cafeteria: "));
-        jpanelEmpleados.add(new JLabel(""));
-        jpanelEmpleados.add(new JLabel(""));
-        jpanelEmpleados.add(new JLabel(""));
-        jpanelEmpleados.add(new JLabel(""));
-        jpanelEmpleados.add(new JLabel(""));
-        jpanelEmpleados.add(new JLabel(""));
-        jpanelEmpleados.add(new JLabel("ID Empleado"));
-        jpanelEmpleados.add(new JLabel("Nombre"));
-        jpanelEmpleados.add(new JLabel("Rol"));
-        jpanelEmpleados.add(new JLabel("Jornada Laboral"));
-        jpanelEmpleados.add(new JLabel("Estado"));
-        jpanelEmpleados.add(new JLabel(""));
-        jpanelEmpleados.add(new JLabel(""));
+        jpanelEmpleados.setLayout(new BoxLayout(jpanelEmpleados, BoxLayout.Y_AXIS));
+
+        JPanel encabezado = new JPanel();
+        encabezado.setLayout(new GridLayout(2,7));
+        encabezado.add(new JLabel("Empleados de la cafeteria: "));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel("ID Empleado"));
+        encabezado.add(new JLabel("Nombre"));
+        encabezado.add(new JLabel("Rol"));
+        encabezado.add(new JLabel("Jornada Laboral"));
+        encabezado.add(new JLabel("Estado"));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel(""));
+        encabezado.setPreferredSize(new Dimension(1260,50));
+        encabezado.setMaximumSize(new Dimension(1260,50));
+        encabezado.setMinimumSize(new Dimension(1260,50));
+        jpanelEmpleados.add(encabezado);
 
         Nodo<Empleado> actual = empleadoFila.getPrimero();
         while(actual != null) {
             Empleado empleado = actual.getDato();
+
+            JPanel filaEmpleado = new JPanel();
+            filaEmpleado.setLayout(new GridLayout(1,7));
+            filaEmpleado.setPreferredSize(new Dimension(1260,50));
+            filaEmpleado.setMaximumSize(new Dimension(1260,50));
+            filaEmpleado.setMinimumSize(new Dimension(1260,50));
 
             JLabel idPersonal = new JLabel(String.valueOf(empleado.getIdentificador()));
             JLabel nombre = new JLabel(empleado.getNombre());
@@ -167,25 +180,25 @@ public class BackendMenuGestorEmpleado {
 
             int identificador = empleado.getIdentificador();
             JButton botonHabilitarDeshabilitar= new JButton();
-            if(empleado.getEstado().equalsIgnoreCase("activo")){
-                botonHabilitarDeshabilitar.setText("Deshabilitar");
-                cambiarEstadoEmpleado(identificador, "inactivo");
-            }else {
-                botonHabilitarDeshabilitar.setText("Habilitar");
-                cambiarEstadoEmpleado(identificador, "activo");
-            }
+            botonHabilitarDeshabilitar.setText("Deshabilitar/Habilitar");
+            botonHabilitarDeshabilitar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(empleado.getEstado().equalsIgnoreCase("activo")){
+                        cambiarEstadoEmpleado(identificador, "inactivo");
+                        empleadoDB.actualizarEstadoEmpleado(identificador,"inactivo");
+                    }else {
+                        cambiarEstadoEmpleado(identificador, "activo");
+                        empleadoDB.actualizarEstadoEmpleado(identificador,"activo");
+                    }
+                }
+            });
 
             JButton botonEliminar = new JButton("Eliminar");
             botonEliminar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    jpanelEmpleados.remove(idPersonal);
-                    jpanelEmpleados.remove(nombre);
-                    jpanelEmpleados.remove(rol);
-                    jpanelEmpleados.remove(jornada);
-                    jpanelEmpleados.remove(estado);
-                    jpanelEmpleados.remove(botonHabilitarDeshabilitar);
-                    jpanelEmpleados.remove(botonEliminar);
+                    jpanelEmpleados.remove(filaEmpleado);
                     eliminarEmpleadoDB(identificador);
                     gestorEmpleados.eliminarEmpleado(identificador);
                     empleadoDB.eliminarEmpleado(identificador);
@@ -194,13 +207,15 @@ public class BackendMenuGestorEmpleado {
                 }
             });
 
-            jpanelEmpleados.add(idPersonal);
-            jpanelEmpleados.add(nombre);
-            jpanelEmpleados.add(rol);
-            jpanelEmpleados.add(jornada);
-            jpanelEmpleados.add(estado);
-            jpanelEmpleados.add(botonHabilitarDeshabilitar);
-            jpanelEmpleados.add(botonEliminar);
+            filaEmpleado.add(idPersonal);
+            filaEmpleado.add(nombre);
+            filaEmpleado.add(rol);
+            filaEmpleado.add(jornada);
+            filaEmpleado.add(estado);
+            filaEmpleado.add(botonHabilitarDeshabilitar);
+            filaEmpleado.add(botonEliminar);
+
+            jpanelEmpleados.add(filaEmpleado);
 
             actual = actual.getSiguiente();
         }
@@ -208,6 +223,11 @@ public class BackendMenuGestorEmpleado {
         jScrollPane.setViewportView(jpanelEmpleados);
         jInternalFrame.setContentPane(jScrollPane);
         panelPrincipal.add(jInternalFrame);
+        try {
+            jInternalFrame.setSelected(true);
+        } catch (java.beans.PropertyVetoException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void agregarEmpleado(Empleado empleado){

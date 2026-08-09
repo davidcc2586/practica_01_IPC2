@@ -40,18 +40,10 @@ public class MenuGestionPersonal extends MenuDeBarra {
                 eliminarDesabilitar();
             }
         });
-        JMenuItem itemDeshabilitar = new JMenuItem("Deshabilitar");
-        itemDeshabilitar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                deshabilitar();
-            }
-        });
 
         jMenu.add(itemRegistrar);
         jMenu.add(itemActualizar);
         jMenu.add(itemListar);
-        jMenu.add(itemDeshabilitar);
     }
 
     public void controlPersonal(){
@@ -63,8 +55,4 @@ public class MenuGestionPersonal extends MenuDeBarra {
     public void eliminarDesabilitar(){
         backendMenuGestorEmpleado.eliminarDeshabilitarEmpleado();
     }
-    public void deshabilitar(){
-
-    }
-
 }

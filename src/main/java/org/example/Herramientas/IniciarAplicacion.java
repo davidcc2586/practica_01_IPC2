@@ -17,10 +17,6 @@ public class IniciarAplicacion {
 
     public void iniciar(){
 
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {
-        }
         ConexionDB conexionDB = new ConexionDB();
         connection = conexionDB.obtenerConexion();
         ventanaPrincipal = new VentanaPrincipal(connection);

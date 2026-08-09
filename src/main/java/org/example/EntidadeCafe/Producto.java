@@ -5,26 +5,24 @@ import org.example.Herramientas.ControlImagen;
 
 import javax.swing.*;
 
-public class producto extends EntidadCafe {
-    protected int codigoInsumo;
+public class Producto extends EntidadCafe {
+    protected int idInsumo;
     protected String nombreInsumo;
     protected String unidadMedida;
     protected double costoInsumo;
     protected int cantidadMinimaStock;
     protected int cantidadProducto;
-    protected ImageIcon imagenProducto;
+    protected String direccionImagen;
 
-    public producto (int codigoInsumo, String nombreInsumo, String unidadMedida, double costoInsumo, int CantidadMInimaStock, String direccionImagen){
-        super(codigoInsumo);
-        this.codigoInsumo = codigoInsumo;
+    public Producto(int idInsumo, String nombreInsumo, String unidadMedida, double costoInsumo, int CantidadMInimaStock, String direccionImagen, int cantidadProducto){
+        super(idInsumo);
+        this.idInsumo = idInsumo;
         this.nombreInsumo = nombreInsumo;
         this.unidadMedida = unidadMedida;
         this.costoInsumo = costoInsumo;
         this.cantidadMinimaStock = CantidadMInimaStock;
-        cantidadProducto = 0;
-
-        ControlImagen controlImagen = new ControlImagen();
-        imagenProducto = controlImagen.devolverImagen(direccionImagen, 100,100);
+        this.cantidadProducto = cantidadProducto;
+        this.direccionImagen = direccionImagen;
     }
 
     public void ingresarProducto(int cantidadNueoProducto){
@@ -47,8 +45,8 @@ public class producto extends EntidadCafe {
         return cantidadProducto;
     }
 
-    public int getCodigoInsumo() {
-        return codigoInsumo;
+    public int getIdInsumo() {
+        return idInsumo;
     }
 
     public String getNombreInsumo() {
@@ -59,12 +57,12 @@ public class producto extends EntidadCafe {
         return costoInsumo;
     }
 
-    public String getUnidadMedida() {
-        return unidadMedida;
+    public String getDireccionImagen() {
+        return direccionImagen;
     }
 
-    public void setCodigoInsumo(int codigoInsumo) {
-        this.codigoInsumo = codigoInsumo;
+    public String getUnidadMedida() {
+        return unidadMedida;
     }
 
     public void setNombreInsumo(String nombreInsumo) {

@@ -69,4 +69,15 @@ public class EmpleadoDB {
 
     }
 
+    public void actualizarEstadoEmpleado(int identificador, String estado){
+        String actualizarEmpleado = "UPDATE Empleado SET estado = ? WHERE id_empleado = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(actualizarEmpleado);
+            preparedStatement.setString(1,estado);
+            preparedStatement.setInt(2,identificador);
+            preparedStatement.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -105,21 +105,33 @@ public class BackendMenuGestorMesa {
 
         JScrollPane jScrollPane = new JScrollPane();
 
-
         JPanel jpanelMesas = new JPanel();
-        jpanelMesas.setLayout(new GridLayout(0,4));
-        jpanelMesas.add(new JLabel("Mesas de la cafeteria: "));
-        jpanelMesas.add(new JLabel(""));
-        jpanelMesas.add(new JLabel(""));
-        jpanelMesas.add(new JLabel(""));
-        jpanelMesas.add(new JLabel("ID mesa"));
-        jpanelMesas.add(new JLabel("Capacidad"));
-        jpanelMesas.add(new JLabel("Estado de la mesa"));
-        jpanelMesas.add(new JLabel(""));
+        jpanelMesas.setLayout(new BoxLayout(jpanelMesas, BoxLayout.Y_AXIS));
+
+        JPanel encabezado = new JPanel();
+        encabezado.setLayout(new GridLayout(2,4));
+        encabezado.add(new JLabel("Mesas de la cafeteria: "));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel(""));
+        encabezado.add(new JLabel("ID mesa"));
+        encabezado.add(new JLabel("Capacidad"));
+        encabezado.add(new JLabel("Estado de la mesa"));
+        encabezado.add(new JLabel(""));
+        encabezado.setPreferredSize(new Dimension(580,50));
+        encabezado.setMaximumSize(new Dimension(580,50));
+        encabezado.setMinimumSize(new Dimension(580,50));
+        jpanelMesas.add(encabezado);
 
         Nodo<Mesa> actual = mesas.getPrimero();
         while(actual != null){
             Mesa mesaActual = actual.getDato();
+
+            JPanel filaMesa = new JPanel();
+            filaMesa.setLayout(new GridLayout(1,4));
+            filaMesa.setPreferredSize(new Dimension(580,50));
+            filaMesa.setMaximumSize(new Dimension(580,50));
+            filaMesa.setMinimumSize(new Dimension(580,50));
 
             JLabel idMesa = new JLabel(String.valueOf(mesaActual.getIdentificador()));
             JLabel capacidadMesa = new JLabel(String.valueOf(mesaActual.getCapacidad()));
@@ -129,10 +141,7 @@ public class BackendMenuGestorMesa {
             botonEliminar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    jpanelMesas.remove(idMesa);
-                    jpanelMesas.remove(capacidadMesa);
-                    jpanelMesas.remove(estadoMesa);
-                    jpanelMesas.remove(botonEliminar);
+                    jpanelMesas.remove(filaMesa);
                     int identificador = mesaActual.getIdentificador();
                     eliminarMesadDB(identificador);
                     gestorMesas.eliminarMesa(identificador);
@@ -142,10 +151,12 @@ public class BackendMenuGestorMesa {
                 }
             });
 
-            jpanelMesas.add(idMesa);
-            jpanelMesas.add(capacidadMesa);
-            jpanelMesas.add(estadoMesa);
-            jpanelMesas.add(botonEliminar);
+            filaMesa.add(idMesa);
+            filaMesa.add(capacidadMesa);
+            filaMesa.add(estadoMesa);
+            filaMesa.add(botonEliminar);
+
+            jpanelMesas.add(filaMesa);
 
             actual = actual.getSiguiente();
         }

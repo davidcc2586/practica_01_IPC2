@@ -1,7 +1,6 @@
 package org.example.InterfasGrafica.backendsMenus;
 
 import org.example.EntidadeCafe.Mesa;
-import org.example.Exceptions.MesaInexistenteException;
 import org.example.Herramientas.ControlImagen;
 import org.example.Herramientas.Fila;
 import org.example.Herramientas.FilaEntidadCafe;
@@ -174,24 +173,22 @@ public class BackendMenuGestorMesa {
             copiarFilas(mesas, mesasBaseDatos);
     }
 
-    public void cambiarEstadoMesa(int identificador, String estado) throws MesaInexistenteException {
+    public void cambiarEstadoMesa(int identificador, String estado){
         int indiceModificar = mesasBaseDatos.buscarElementoIndice(identificador);
         if (indiceModificar != 0) {
             Mesa mesaModificar = mesas.buscarElemento(indiceModificar);
             mesaModificar.cambiarEstado(estado);
             gestorMesas.actualizarMesa(identificador);
             copiarFilas(mesas, mesasBaseDatos);
-        }else {
-            throw new MesaInexistenteException("La mesa no se encuentra en el sistema.");
         }
     }
 
     public void copiarFilas(Fila<Mesa> origanal, FilaEntidadCafe copiar){
         copiar.limpiarFila();
-        Nodo<Mesa> temporal = origanal.getPrimero();
-        while (temporal != null){
-            copiar.agregarDato(temporal.getDato());
-            temporal = temporal.getSiguiente();
+        Nodo<Mesa> actual = origanal.getPrimero();
+        while (actual != null){
+            copiar.agregarDato(actual.getDato());
+            actual = actual.getSiguiente();
         }
     }
 }

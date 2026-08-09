@@ -1,5 +1,7 @@
 package org.example.InterfasGrafica.Menus;
 
+import org.example.InterfasGrafica.backendsMenus.BackendMenuGestorEmpleado;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,32 +9,35 @@ import java.sql.Connection;
 
 public class MenuGestionPersonal extends MenuDeBarra {
 
+    public BackendMenuGestorEmpleado backendMenuGestorEmpleado;
+
     public  MenuGestionPersonal(JDesktopPane panelPrincipal, Connection connection){
         super(panelPrincipal,connection,"Gestión de Personal");
+        backendMenuGestorEmpleado= new BackendMenuGestorEmpleado(connection,panelPrincipal);
     }
 
     @Override
     public void crearMenu() {
 
-        JMenuItem itemRegistrar = new JMenuItem("Registrar");
+        JMenuItem itemRegistrar = new JMenuItem("Control Personal");
         itemRegistrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                registrar();
+                controlPersonal();
             }
         });
-        JMenuItem itemActualizar = new JMenuItem("Actualizar");
+        JMenuItem itemActualizar = new JMenuItem("Ingresar Empleado");
         itemActualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               actualizar();
+               ingresarNuevoEmpleado();
             }
         });
-        JMenuItem itemListar = new JMenuItem("Listar");
+        JMenuItem itemListar = new JMenuItem("Eliminar/Desabilitar");
         itemListar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-             listar();
+                eliminarDesabilitar();
             }
         });
         JMenuItem itemDeshabilitar = new JMenuItem("Deshabilitar");
@@ -49,14 +54,14 @@ public class MenuGestionPersonal extends MenuDeBarra {
         jMenu.add(itemDeshabilitar);
     }
 
-    public void registrar(){
-
+    public void controlPersonal(){
+        backendMenuGestorEmpleado.controlEmpleados();
     }
-    public void actualizar(){
-
+    public void ingresarNuevoEmpleado(){
+        backendMenuGestorEmpleado.agregarNuevoEmpleado();
     }
-    public void listar(){
-
+    public void eliminarDesabilitar(){
+        backendMenuGestorEmpleado.eliminarDeshabilitarEmpleado();
     }
     public void deshabilitar(){
 

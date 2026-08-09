@@ -1,6 +1,10 @@
 INSERT into Empleado(DPI, nombre, apellido, rol, jornadaLaboral, salario, fechaContratacion, estado)
-VALUE ('1234567891012', 'Juan Carlos','Perez gomes', 'mesero', 'vespertina', 848.21 , '2025-06-23', 'activo');
+VALUE ('1472583691472', 'Juan Carlos','Perez gomes', 'mesero', 'vespertina', 848.21, '2025-06-23', 'activo');
+INSERT into Empleado(DPI, nombre, apellido, rol, jornadaLaboral, salario, fechaContratacion, estado)
+VALUE ('3216549873692', 'Juan Carlos','Perez gomes', 'barista', 'vespertina', 848.21, '2025-06-23', 'activo');
 INSERT INTO Mesa(capacidad)
 VALUE (5);
+INSERT INTO Mesa(capacidad)
+VALUE (4);
 INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
 value ('Pan Integral', 'u', 50, 20,1.25, '"/Imagenes/OcupadaConMesero.png"');

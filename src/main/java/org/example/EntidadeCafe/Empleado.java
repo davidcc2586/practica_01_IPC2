@@ -4,28 +4,44 @@ import java.time.LocalDate;
 
 public class Empleado extends EntidadCafe {
 
-    protected int DPI;
+    protected int idEmpleado;
+    protected String DPI;
     protected String nombre;
+    protected String apellido;
     protected String rolEmpleado;
     protected String jornadaLaboral;
     protected double salario;
     protected LocalDate fechaContratacion;
+    protected String estado;
+    protected String direccionImagen;
 
-    public Empleado(int DPI, String nombreCompleto, String rolEmpleado, String jornadaLaboral, double salario, LocalDate fechaContratacion) {
-        super(DPI);
+    public Empleado(int idEmpleado, String DPI, String nombre,String apellido, String rolEmpleado, String jornadaLaboral, double salario, LocalDate fechaContratacion, String estado, String direccionImagen) {
+        super(idEmpleado);
+        this.idEmpleado = idEmpleado;
         this.DPI = DPI;
-        this.nombre = nombreCompleto;
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.rolEmpleado = rolEmpleado;
         this.jornadaLaboral = jornadaLaboral;
         this.salario = salario;
         this.fechaContratacion = fechaContratacion;
+        this.estado = estado;
+        this.direccionImagen = direccionImagen;
+    }
+
+    public String getDireccionImagen() {
+        return direccionImagen;
+    }
+
+    public String getEstado() {
+        return estado;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public int getDPI() {
+    public String getDPI() {
         return DPI;
     }
 
@@ -53,8 +69,8 @@ public class Empleado extends EntidadCafe {
         this.nombre = nombre;
     }
 
-    public void setDPI(int DPI) {
-        this.DPI = DPI;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public void setJornadaLaboral(String jornadaLaboral) {

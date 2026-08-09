@@ -9,7 +9,8 @@ CREATE TABLE Empleado (
     jornadaLaboral ENUM ('matutina', 'vespertina', 'nocturna') NOT NULL,
     salario DECIMAL(8,2) NOT NULL,
     fechaContratacion DATE NOT NULL,
-    estado ENUM ('activo', 'inactivo') DEFAULT 'activo'
+    estado ENUM ('activo', 'inactivo') DEFAULT 'activo',
+    direcionImagen VARCHAR(50) DEFAULT '"/imagenes/empleado.png"'
 );
 CREATE TABLE Mesa(
     id_mesa INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,10 +62,3 @@ CREATE TABLE ProductoInsumo(
     foreign key (id_insumo) REFERENCES Inventario(id_insumo),
     FOREIGN KEY (id_producto) REFERENCES Menu(id_producto)
 );
-
-INSERT into Empleado(DPI, nombre, apellido, rol, jornadaLaboral, salario, fechaContratacion, estado)
-VALUE ('1234567891012', 'Juan Carlos','Perez gomes', 'mesero', 'vespertina', 848.21 , '2025-06-23', 'activo');
-INSERT INTO Mesa(capacidad)
-VALUE (5);
-INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
-value ('Pan Integral', 'u', 50, 20,1.25, '"/Imagenes/mesaLibre.png"');

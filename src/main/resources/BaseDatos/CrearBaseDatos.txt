@@ -9,7 +9,8 @@ CREATE TABLE Empleado (
     jornadaLaboral ENUM ('matutina', 'vespertina', 'nocturna') NOT NULL,
     salario DECIMAL(8,2) NOT NULL,
     fechaContratacion DATE NOT NULL,
-    estado ENUM ('activo', 'inactivo') DEFAULT 'activo'
+    estado ENUM ('activo', 'inactivo') DEFAULT 'activo',
+    direcionImagen VARCHAR(50) DEFAULT '/Imagenes/empleado.png'
 );
 CREATE TABLE Mesa(
     id_mesa INT AUTO_INCREMENT PRIMARY KEY,

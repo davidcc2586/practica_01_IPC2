@@ -16,7 +16,7 @@ public class Empleado extends EntidadCafe {
     protected String direccionImagen;
 
     public Empleado(int idEmpleado, String DPI, String nombre,String apellido, String rolEmpleado, String jornadaLaboral, double salario, LocalDate fechaContratacion, String estado, String direccionImagen) {
-        super(idEmpleado);
+        super(idEmpleado, nombre);
         this.idEmpleado = idEmpleado;
         this.DPI = DPI;
         this.nombre = nombre;

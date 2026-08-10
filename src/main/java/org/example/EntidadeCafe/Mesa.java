@@ -13,7 +13,7 @@ public class Mesa extends EntidadCafe {
     protected ImageIcon imagenEstadoMesa;
 
     public Mesa(int numeroMesa, int capacidad, String estado){
-        super(numeroMesa);
+        super(numeroMesa, null);
         this.numeroMesa = numeroMesa;
         this.capacidad = capacidad;
         this.estadoActual = estado;

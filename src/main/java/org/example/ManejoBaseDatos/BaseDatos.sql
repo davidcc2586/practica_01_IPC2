@@ -30,7 +30,8 @@ CREATE TABLE Menu(
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
     nombreProducto VARCHAR(100) NOT NULL,
     categoria ENUM ('bebida caliente', 'bebida fria', 'postre', 'comida') NOT NULL,
-    precio DECIMAL(10,2) NOT NULL
+    precio DECIMAL(10,2) NOT NULL,
+    direccionImagen VARCHAR(50) NOT NULL
 );
 CREATE TABLE Pedido(
     id_pedido INT AUTO_INCREMENT PRIMARY KEY,

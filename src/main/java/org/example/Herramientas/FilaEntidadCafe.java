@@ -17,4 +17,19 @@ public class FilaEntidadCafe extends Fila<EntidadCafe>{
         return 0;
     }
 
+    public int buscarElementoIndice(String nombre){
+        int indice = 1;
+        Nodo<EntidadCafe> nodoRecorrer = primero;
+        while (nodoRecorrer != null){
+            if (nodoRecorrer.getDato().getNombre().equalsIgnoreCase(nombre)){
+                return indice;
+            }
+            indice++;
+            nodoRecorrer = nodoRecorrer.getSiguiente();
+        }
+        return 0;
+    }
+
+
+
 }

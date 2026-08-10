@@ -21,7 +21,7 @@ public class FichaProducto {
 
         imagenProducto.setLayout(new FlowLayout());
         JLabel contenedorImagen = new JLabel();
-        contenedorImagen.setIcon(new ControlImagen().devolverImagen(producto.getDireccionImagen(), 50,50));
+        contenedorImagen.setIcon(new ControlImagen().devolverImagen(producto.getDireccionImagen(), 55,55));
         imagenProducto.add(contenedorImagen);
         idProducto.setText(String.valueOf(producto.getIdentificador()));
         nombre.setText(producto.getNombreInsumo());
@@ -50,7 +50,7 @@ public class FichaProducto {
     public  void configuracionFicha(){
         fichaProducto.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
-        Dimension dimension = new Dimension(450, 75);
+        Dimension dimension = new Dimension(450, 80);
         fichaProducto.setPreferredSize(dimension);
         fichaProducto.setMaximumSize(dimension);
         fichaProducto.setMinimumSize(dimension);

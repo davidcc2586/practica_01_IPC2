@@ -1,6 +1,5 @@
 package org.example.InterfasGrafica;
 
-import org.example.EntidadeCafe.Empleado;
 import org.example.EntidadeCafe.Producto;
 import org.example.Herramientas.Fila;
 import org.example.Herramientas.Nodo;
@@ -24,9 +23,9 @@ public class GestorInventario {
     }
 
     public void agregarProducto(Producto producto){
-        FichaProducto nuevoProducto = new FichaProducto(producto);
-        jPanel.add(nuevoProducto.getFichaProducto());
-        fichasprudcto.agregarDato(nuevoProducto);
+        FichaProducto fichanuevoProducto = new FichaProducto(producto);
+        jPanel.add(fichanuevoProducto.getFichaProducto());
+        fichasprudcto.agregarDato(fichanuevoProducto);
         jPanel.revalidate();
         jPanel.revalidate();
     }

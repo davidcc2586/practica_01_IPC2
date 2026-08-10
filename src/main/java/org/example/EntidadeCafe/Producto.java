@@ -15,7 +15,7 @@ public class Producto extends EntidadCafe {
     protected String direccionImagen;
 
     public Producto(int idInsumo, String nombreInsumo, String unidadMedida, double costoInsumo, int CantidadMInimaStock, String direccionImagen, int cantidadProducto){
-        super(idInsumo);
+        super(idInsumo, nombreInsumo);
         this.idInsumo = idInsumo;
         this.nombreInsumo = nombreInsumo;
         this.unidadMedida = unidadMedida;

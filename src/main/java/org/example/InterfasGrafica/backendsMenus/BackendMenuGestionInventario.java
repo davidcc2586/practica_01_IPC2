@@ -23,6 +23,7 @@ public class BackendMenuGestionInventario {
     protected JDesktopPane panelPrincipal;
     protected GestorInventario gestorInventario;
     protected String direccionImagen;
+
     public BackendMenuGestionInventario(Connection connection, JDesktopPane jDesktopPane){
         this.connection = connection;
         panelPrincipal = jDesktopPane;

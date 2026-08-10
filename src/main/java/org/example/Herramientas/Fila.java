@@ -1,7 +1,5 @@
 package org.example.Herramientas;
 
-import org.example.EntidadeCafe.EntidadCafe;
-
 public class Fila<T>{
 
     protected Nodo<T> primero;
@@ -40,20 +38,6 @@ public class Fila<T>{
         tamañoFila--;
         return sacar.getDato();
     }
-
-    /*
-    public void eliminarCantidadDatos(int cantidad){
-        for (int i = 0; i < cantidad && primero != null ; i++) {
-            primero = primero.getSiguiente();
-            if (primero == null){
-                ultimo = null;
-            } else {
-                primero.setAnterior(null);
-            }
-            tamañoFila--;
-        }
-    }
-     */
 
     public T buscarElemento(int indice){
         Nodo<T> nodoRecorrer = primero;

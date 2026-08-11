@@ -29,40 +29,45 @@ public class Empleado extends EntidadCafe {
         this.direccionImagen = direccionImagen;
     }
 
-    public String getDireccionImagen() {
-        return direccionImagen;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public String getNombre() {
-        return nombre;
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
     public String getDPI() {
         return DPI;
     }
 
-    public double getSalario() {
-        return salario;
+    @Override
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
     }
 
     public String getRolEmpleado() {
         return rolEmpleado;
     }
 
-    public LocalDate getFechaContratacion() {
-        return fechaContratacion;
-    }
-
     public String getJornadaLaboral() {
         return jornadaLaboral;
     }
 
-    public void setSalario(double salario) {
-        this.salario = salario;
+    public double getSalario() {
+        return salario;
+    }
+
+    public LocalDate getFechaContratacion() {
+        return fechaContratacion;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getDireccionImagen() {
+        return direccionImagen;
     }
 
     public void setNombre(String nombre) {
@@ -71,18 +76,6 @@ public class Empleado extends EntidadCafe {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public void setJornadaLaboral(String jornadaLaboral) {
-        this.jornadaLaboral = jornadaLaboral;
-    }
-
-    public void setRolEmpleado(String rolEmpleado) {
-        this.rolEmpleado = rolEmpleado;
-    }
-
-    public void setFechaContratacion(LocalDate fechaContratacion) {
-        this.fechaContratacion = fechaContratacion;
     }
 
 }

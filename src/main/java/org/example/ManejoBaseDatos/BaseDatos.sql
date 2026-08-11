@@ -10,7 +10,7 @@ CREATE TABLE Empleado (
     salario DECIMAL(8,2) NOT NULL,
     fechaContratacion DATE NOT NULL,
     estado ENUM ('activo', 'inactivo') DEFAULT 'activo',
-    direcionImagen VARCHAR(50) DEFAULT '"/imagenes/empleado.png"'
+    direcionImagen VARCHAR(50) DEFAULT '/Imagenes/empleado.png'
 );
 CREATE TABLE Mesa(
     id_mesa INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,7 +31,7 @@ CREATE TABLE Menu(
     nombreProducto VARCHAR(100) NOT NULL,
     categoria ENUM ('bebida caliente', 'bebida fria', 'postre', 'comida') NOT NULL,
     precio DECIMAL(10,2) NOT NULL,
-    direccionImagen VARCHAR(50) NOT NULL
+    direccionImagen VARCHAR(100) NOT NULL
 );
 CREATE TABLE Pedido(
     id_pedido INT AUTO_INCREMENT PRIMARY KEY,
@@ -63,3 +63,17 @@ CREATE TABLE ProductoInsumo(
     foreign key (id_insumo) REFERENCES Inventario(id_insumo),
     FOREIGN KEY (id_producto) REFERENCES Menu(id_producto)
 );
+CREATE TABLE Nomina(
+    id_insumo INT AUTO_INCREMENT PRIMARY KEY,
+    idEmpleado INT NOT NULL,
+    estado ENUM('pendiente', 'pagado') DEFAULT 'pendiente',
+    monto DOUBLE(10,2) NOT NULL,
+    fechaPago DATE,
+    tipo ENUM('quincena', 'fin de mes') not null
+);
+CREATE TABLE Transacciones(
+    id_transaccion INT AUTO_INCREMENT,
+    tipo ENUM('ingreso', 'egreso') NOT NULL,
+    motivo VARCHAR(150) NOT NULL,
+    monto DOUBLE NOT NULL
+)

@@ -5,6 +5,7 @@ import org.example.EntidadeCafe.Producto;
 import org.example.EntidadeCafe.ProductoInsumo;
 import org.example.Herramientas.Fila;
 import org.example.Herramientas.FilaEntidadCafe;
+import org.example.Herramientas.ManejoArchivosHTML;
 import org.example.Herramientas.Nodo;
 import org.example.InterfasGrafica.FichaProducto;
 import org.example.InterfasGrafica.GestorMenu;
@@ -15,7 +16,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class BackendMenuGestionMenu {
 
@@ -301,8 +308,10 @@ public class BackendMenuGestionMenu {
         }
     }
 
+    //Ventana NO.4
     public void exportarMenuHTML(){
-
+        ManejoArchivosHTML manejoArchivosHTML = new ManejoArchivosHTML();
+        manejoArchivosHTML.escribirHTML(menusFila);
     }
 
     public void agregarMenu(Menu menu){

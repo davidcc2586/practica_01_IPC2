@@ -4,6 +4,7 @@ public class EntidadCafe {
 
     protected int identificador;
     protected String nombre;
+
     public EntidadCafe(int identificador, String nombre){
         this.identificador = identificador;
         this.nombre = nombre;

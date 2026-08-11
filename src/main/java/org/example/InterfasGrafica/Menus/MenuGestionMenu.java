@@ -50,6 +50,7 @@ public class MenuGestionMenu extends MenuDeBarra {
         jMenu.add(itemControlMenu);
         jMenu.add(itemCrear);
         jMenu.add(itemEliminar);
+        jMenu.add(itemExportarMenu);
     }
 
     public void controlMenu(){

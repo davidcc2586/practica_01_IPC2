@@ -104,7 +104,7 @@ public class BackendMenuGestionInventario {
                     int identificador = producto.getIdentificador();
                     producto.ingresarProducto(Integer.parseInt(jTextField.getText()));
                     gestorInventario.actualizarProducto(identificador);
-                    inventarioDB.ingresarCantidaInsumos(identificador,producto.getCantidadProducto());
+                    inventarioDB.ingresarCantidaInsumos(identificador,producto.getCantidadProducto(),Integer.parseInt(jTextField.getText()));
 
                     cantidadStock.setText(String.valueOf(producto.getCantidadProducto()));
                     jTextField.setText("");

@@ -65,16 +65,36 @@ public class InventarioDB {
         }
     }
 
-    public void ingresarCantidaInsumos(int identificado, int nuevaCantidad){
+    public void ingresarCantidaInsumos(int identificado, int nuevaCantidad, int cantidadAgregada){
         String ingresoInsumo = "UPDATE Inventario SET cantidadStock = ? where id_insumo = ?";
       try {
           PreparedStatement preparedStatement = connection.prepareStatement(ingresoInsumo);
           preparedStatement.setInt(1,nuevaCantidad);
           preparedStatement.setInt(2,identificado);
           preparedStatement.execute();
+          registrarEgresos(identificado,cantidadAgregada);
       }catch (Exception e){
 
       }
+    }
 
+    public void registrarEgresos(int identificador, int nuevaCantidad){
+        String solicitarNombreCosto = "select nombre,costoInsumo from Inventario WHERE id_insumo = ?;";
+        String ingresarEgresos = "INSERT INTO Transacciones(tipo,motivo,monto) VALUES(?,?,?)";
+        try {
+            PreparedStatement datosProducto = connection.prepareStatement(solicitarNombreCosto);
+            datosProducto.setInt(1,identificador);
+            ResultSet resultadoDatosProducto = datosProducto.executeQuery();
+            resultadoDatosProducto.next();
+
+            PreparedStatement egresos = connection.prepareStatement(ingresarEgresos);
+            egresos.setString(1,"egreso");
+            egresos.setString(2,"Compra de " + resultadoDatosProducto.getString("nombre"));
+            egresos.setDouble(3,-(nuevaCantidad * resultadoDatosProducto.getDouble("costoInsumo")));
+            egresos.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

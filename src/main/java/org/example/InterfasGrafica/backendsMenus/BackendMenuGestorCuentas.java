@@ -23,11 +23,15 @@ public class BackendMenuGestorCuentas {
     protected GestorCuenta gestorCuenta;
     protected CuentaDB cuentaDB;
     protected JPanel jPanelCuentasAbiertas;
-    protected JPanel jPanelCuentaCerrada;
+    protected JPanel jPanelCuentasCerrada;
+    protected BackendMenuGestorMesa backendMenuGestorMesa;
+    protected BackendMenuGestionInventario backendMenuGestionInventario;
 
-    public BackendMenuGestorCuentas (Connection connection, JDesktopPane panelPrincipal){
+    public BackendMenuGestorCuentas (Connection connection, JDesktopPane panelPrincipal, BackendMenuGestorMesa backendMenuGestorMesa, BackendMenuGestionInventario backendMenuGestionInventario){
         this.connection = connection;
         this.panelPrincipal = panelPrincipal;
+        this.backendMenuGestorMesa = backendMenuGestorMesa;
+        this.backendMenuGestionInventario = backendMenuGestionInventario;
         cuentaDB = new CuentaDB(connection, this);
         gestorCuenta = new GestorCuenta(panelPrincipal, cuentaDB);
     }
@@ -39,8 +43,8 @@ public class BackendMenuGestorCuentas {
         int y = (panelPrincipal.getHeight()-500)/2;
         jInternalFrame.setLocation(x,y);
 
-        JPanel panelPrincipalCuentasCerradas = new JPanel();
-        panelPrincipalCuentasCerradas.setLayout(new BoxLayout(panelPrincipalCuentasCerradas,BoxLayout.Y_AXIS));
+        JPanel panelPrincipalCuentasAbiertas = new JPanel();
+        panelPrincipalCuentasAbiertas.setLayout(new BoxLayout(panelPrincipalCuentasAbiertas,BoxLayout.Y_AXIS));
 
         JPanel cabecera = new JPanel(new GridLayout(1, 3));
         Dimension dimension = new Dimension(440, 30);
@@ -60,11 +64,11 @@ public class BackendMenuGestorCuentas {
         finaljpanel.add(botonNuevaCuenta);
 
 
-        panelPrincipalCuentasCerradas.add(cabecera);
-        panelPrincipalCuentasCerradas.add(jscrollPanelCuentaAbiertas());
-        panelPrincipalCuentasCerradas.add(botonNuevaCuenta);
+        panelPrincipalCuentasAbiertas.add(cabecera);
+        panelPrincipalCuentasAbiertas.add(jscrollPanelCuentaAbiertas());
+        panelPrincipalCuentasAbiertas.add(botonNuevaCuenta);
 
-        jInternalFrame.setContentPane(panelPrincipalCuentasCerradas);
+        jInternalFrame.setContentPane(panelPrincipalCuentasAbiertas);
         panelPrincipal.add(jInternalFrame);
         jInternalFrame.setVisible(true);
 
@@ -132,7 +136,10 @@ public class BackendMenuGestorCuentas {
                     LocalTime hora = LocalTime.now();
                     int indiceEmpleado = empleadosFilaUniversal.buscarElementoIndice(String.valueOf(empleadoDisponibles.getSelectedItem()));
                     Empleado meseroAtiende = empleadosFila.buscarElemento(indiceEmpleado);
+                    String idEscrito = String.valueOf(mesasDisponibles.getSelectedItem());
+                    int indice = Integer.parseInt(idEscrito);
                     cuentaDB.agregarNuevaCuenta(meseroAtiende.getIdEmpleado(), String.valueOf(mesasDisponibles.getSelectedItem()),fecha, hora);
+                    backendMenuGestorMesa.cambiarEstadoMesa(indice,"ocupada");
                 }
                 solicitarDattosNuevaCuenta.dispose();
             });
@@ -169,7 +176,7 @@ public class BackendMenuGestorCuentas {
         JScrollPane jScrollPane = new JScrollPane();
         jPanelCuentasAbiertas = jpanelBase(true);
 
-        copiarFilas(cuentaDB.cuentasAbiertas(), cuentasAbiertas);
+        copiarFilas(cuentaDB.cuentas(true), cuentasAbiertas);
         Nodo<Cuenta> actual = cuentasAbiertas.getPrimero();
         while (actual != null){
             Cuenta cuenta = actual.getDato();
@@ -179,7 +186,6 @@ public class BackendMenuGestorCuentas {
 
         jScrollPane.setViewportView(jPanelCuentasAbiertas);
         return jScrollPane;
-        //gestorCuenta.getjScrollPaneCuentasAbiertas();
     }
     public void agregarCuentaAbierta(Cuenta cuenta){
         JPanel fila = crearFila(7);
@@ -190,7 +196,7 @@ public class BackendMenuGestorCuentas {
         fila.add(crearEtiqueta(String.valueOf(cuenta.getHoraEntrada())));
         fila.add(crearEtiqueta(cuenta.getEstado()));
         JButton botonDetallesCuenta = botonDetallesCuenta(cuenta);
-        JButton botonPagarCuenta = botonPagarCuenta();
+        JButton botonPagarCuenta = botonPagarCuenta(cuenta,fila);
         fila.add(botonDetallesCuenta);
         fila.add(botonPagarCuenta);
         jPanelCuentasAbiertas.add(fila);
@@ -260,19 +266,23 @@ public class BackendMenuGestorCuentas {
             botonAgregar.addActionListener(_ -> {
 
                 String nombre = (String) comboMenus.getSelectedItem();
-                if (nombre == null || nombre.isBlank()) {
+                int indice = menus.buscarElementoIndice(nombre);
+
+                if(nombre == null || nombre.isBlank()){
                     return;
+                } else if (cuentaDB.restarInsumosPorMenu(indice)) {
+                    Menu menu = menusDisponibles.buscarElemento(indice);
+                    if (menu == null) {
+                        return;
+                    }
+                    cuentaDB.agregarDetallesCuenta(cuenta.getIdCuenta(),menu.getIdMenu());
+                    panelMenus.add(new FichaMenu(menu).getFichaMenu());
+                    panelMenus.revalidate();
+                    panelMenus.repaint();
+                } else {
+                    JOptionPane.showMessageDialog(panelPrincipal, "Cantidad insuficiente de Insumos");
                 }
 
-                int indice = menus.buscarElementoIndice(nombre);
-                Menu menu = menusDisponibles.buscarElemento(indice);
-                if (menu == null) {
-                    return;
-                }
-                cuentaDB.agregarDetallesCuenta(cuenta.getIdCuenta(),menu.getIdMenu());
-                panelMenus.add(new FichaMenu(menu).getFichaMenu());
-                panelMenus.revalidate();
-                panelMenus.repaint();
             });
 
 
@@ -310,9 +320,21 @@ public class BackendMenuGestorCuentas {
         return boton;
     }
 
-    public JButton botonPagarCuenta(){
+    public JButton botonPagarCuenta(Cuenta cuenta, JPanel fila){
         JButton jButton = new JButton("Cerrar");
-
+        jButton.addActionListener(e -> {
+            String mensajeConfirmacion = "¿Dese cerrar la cuenta?\n Total de la cuenta: Q." + cuentaDB.totalCuenta(cuenta.getIdCuenta());
+            int respuesta = JOptionPane.showConfirmDialog(null,mensajeConfirmacion, "Confirmación", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                cuentaDB.cerrarCuenta(cuenta.getIdCuenta());
+                cuentaDB.liberarMesa(cuenta.getIdmesa());
+                cuentaDB.liberarMesero(cuenta.getIdMesero());
+                backendMenuGestorMesa.cambiarEstadoMesa(cuenta.getIdmesa(),"ocupada");
+                fila.removeAll();
+                jPanelCuentasAbiertas.revalidate();
+                jPanelCuentasAbiertas.repaint();
+            }
+        });
         return jButton;
     }
 
@@ -323,11 +345,6 @@ public class BackendMenuGestorCuentas {
             actual = actual.getSiguiente();
         }
     }
-
-    public void crearControlCuentasCerradas(){
-
-    }
-
 
     public JPanel jpanelBase(boolean abierta){
         JPanel jPanel = new JPanel();
@@ -353,6 +370,75 @@ public class BackendMenuGestorCuentas {
         return jPanel;
     }
 
+
+
+    public void crearControlCuentasCerradas(){
+        JInternalFrame jInternalFrame = new JInternalFrame("Cuentas Cerradas", true, true, true, true);
+        jInternalFrame.setSize(800,500);
+        int x = (panelPrincipal.getWidth()-800)/2;
+        int y = (panelPrincipal.getHeight()-500)/2;
+        jInternalFrame.setLocation(x,y);
+
+        JPanel panelPrincipalCuentasCerradas = new JPanel();
+        panelPrincipalCuentasCerradas.setLayout(new BoxLayout(panelPrincipalCuentasCerradas,BoxLayout.Y_AXIS));
+
+        JPanel cabecera = new JPanel(new GridLayout(1, 3));
+        Dimension dimension = new Dimension(440, 30);
+        cabecera.setPreferredSize(dimension);
+        cabecera.setMaximumSize(dimension);
+        cabecera.setMinimumSize(dimension);
+        cabecera.add(crearEtiqueta(""));
+        cabecera.add(crearEtiqueta("Cuentas Cerradas"));
+        cabecera.add(crearEtiqueta(""));
+
+
+        panelPrincipalCuentasCerradas.add(cabecera);
+        panelPrincipalCuentasCerradas.add(jscrollPanelCuentaCerrada());
+
+
+        jInternalFrame.setContentPane(panelPrincipalCuentasCerradas);
+        panelPrincipal.add(jInternalFrame);
+        jInternalFrame.setVisible(true);
+
+        try{
+            jInternalFrame.setSelected(true);
+        }catch(java.beans.PropertyVetoException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    Fila<Cuenta> cuentasCerradas;
+    public JScrollPane jscrollPanelCuentaCerrada(){
+        cuentasCerradas = new Fila<>();
+        JScrollPane jScrollPane = new JScrollPane();
+        jPanelCuentasCerrada = jpanelBase(false);
+
+        copiarFilas(cuentaDB.cuentas(false), cuentasCerradas);
+        Nodo<Cuenta> actual = cuentasCerradas.getPrimero();
+        while (actual != null){
+            Cuenta cuenta = actual.getDato();
+            agregarCuentaCerrada(cuenta);
+            actual = actual.getSiguiente();
+        }
+
+        jScrollPane.setViewportView(jPanelCuentasCerrada);
+        return jScrollPane;
+    }
+
+    public void agregarCuentaCerrada(Cuenta cuenta){
+        JPanel fila = crearFila(7);
+        fila.add(crearEtiqueta(String.valueOf(cuenta.getIdCuenta())));
+        fila.add(crearEtiqueta(cuenta.getNombreMesero()));
+        fila.add(crearEtiqueta(String.valueOf(cuenta.getIdmesa())));
+        fila.add(crearEtiqueta(String.valueOf(cuenta.getFecha())));
+        fila.add(crearEtiqueta(String.valueOf(cuenta.getHoraEntrada())));
+        fila.add(crearEtiqueta(String.valueOf(cuenta.getHoraSalida())));
+        fila.add(crearEtiqueta(cuenta.getEstado()));
+        JButton botonDetallesCuenta = botonDetallesCuenta(cuenta);
+        fila.add(botonDetallesCuenta);
+        jPanelCuentasCerrada.add(fila);
+    }
+
     public JPanel crearFila(int columnas) {
 
         JPanel fila = new JPanel(new GridLayout(1, columnas));
@@ -370,4 +456,7 @@ public class BackendMenuGestorCuentas {
         return etiqueta;
     }
 
+    public BackendMenuGestionInventario getBackendMenuGestionInventario() {
+        return backendMenuGestionInventario;
+    }
 }

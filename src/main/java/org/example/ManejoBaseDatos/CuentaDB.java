@@ -5,6 +5,7 @@ import org.example.EntidadeCafe.Empleado;
 import org.example.EntidadeCafe.Menu;
 import org.example.EntidadeCafe.Mesa;
 import org.example.Herramientas.Fila;
+import org.example.InterfasGrafica.backendsMenus.BackendMenuGestionInventario;
 import org.example.InterfasGrafica.backendsMenus.BackendMenuGestorCuentas;
 
 import java.sql.Connection;
@@ -17,10 +18,12 @@ public class CuentaDB {
 
     protected Connection connection;
     protected BackendMenuGestorCuentas backendMenuGestorCuentas;
+    protected BackendMenuGestionInventario backendMenuGestionInventario;
 
     public CuentaDB(Connection connection, BackendMenuGestorCuentas backendMenuGestorCuentas) {
         this.connection = connection;
         this.backendMenuGestorCuentas = backendMenuGestorCuentas;
+        this.backendMenuGestionInventario = backendMenuGestionInventario;
     }
 
     public Fila<Menu> menusSolicitadosCuenta(int idCuenta){
@@ -150,10 +153,16 @@ public class CuentaDB {
         }
     }
 
-    public Fila<Cuenta> cuentasAbiertas(){
+    public Fila<Cuenta> cuentas(boolean isAbierta){
         Fila<Cuenta> cuentasAbiertas = new Fila<>();
         String sqlSolicitarNombreMesero = "SELECT nombre FROM Empleado WHERE id_empleado = ?";
-        String sqlCuentasAbiertas = "SELECT * from Pedido WHERE estadoCuenta = 'abierta'";
+        String sqlCuentasAbiertas;
+        if (isAbierta) {
+            sqlCuentasAbiertas = "SELECT * from Pedido WHERE estadoCuenta = 'abierta'";
+        } else{
+            sqlCuentasAbiertas = "SELECT * from Pedido WHERE estadoCuenta = 'pagada'";
+        }
+
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlCuentasAbiertas);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -186,6 +195,116 @@ public class CuentaDB {
             ingresarDetalleCuenta.setInt(2,idMenu);
             ingresarDetalleCuenta.setDouble(3,precioMenu.getDouble("precio"));
             ingresarDetalleCuenta.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean restarInsumosPorMenu(int idMenu){
+        String sqlSolicitarInsumos = "SELECT id_insumo,cantidad FROM ProductoInsumo where id_producto = ? ";
+
+        String sqlVerificarStock = "SELECT cantidadStock - ? FROM Inventario WHERE id_insumo = ?";
+
+        try {
+            PreparedStatement preparedStatementInsumos = connection.prepareStatement(sqlSolicitarInsumos);
+            preparedStatementInsumos.setInt(1,idMenu);
+            ResultSet insumoRequerido = preparedStatementInsumos.executeQuery();
+            while(insumoRequerido.next()){
+                PreparedStatement preparedStatementVerificarExistencia = connection.prepareStatement(sqlVerificarStock);
+                preparedStatementVerificarExistencia.setInt(1,insumoRequerido.getInt("cantidad"));
+                preparedStatementVerificarExistencia.setInt(2,insumoRequerido.getInt("id_insumo"));
+                ResultSet cantidadRestante = preparedStatementVerificarExistencia.executeQuery();
+                cantidadRestante.next();
+                if (cantidadRestante.getInt(1) < 0 ){
+                    return false;
+                }
+            }
+            descontraInsumos(idMenu);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
+
+
+    public void descontraInsumos(int idMenu){
+        String sqlSolicitarInsumos = "SELECT id_insumo,cantidad FROM ProductoInsumo where id_producto = ? ";
+        String sqlRestarInventario = "UPDATE Inventario SET cantidadStock = cantidadStock - ? WHERE id_insumo = ?";
+
+        try {
+            PreparedStatement preparedStatementInsumos = connection.prepareStatement(sqlSolicitarInsumos);
+            preparedStatementInsumos.setInt(1,idMenu);
+            ResultSet insumoRequerido = preparedStatementInsumos.executeQuery();
+            while(insumoRequerido.next()){
+                PreparedStatement descontarStock = connection.prepareStatement(sqlRestarInventario);
+                descontarStock.setInt(1,insumoRequerido.getInt("cantidad"));
+                descontarStock.setInt(2,insumoRequerido.getInt("id_insumo"));
+                descontarStock.execute();
+
+                backendMenuGestorCuentas.getBackendMenuGestionInventario().getGestorInventario().actualizarProducto(insumoRequerido.getInt("id_insumo"),-insumoRequerido.getInt("cantidad"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public double totalCuenta(int idCuenta){
+        double total = 0;
+        String solicitarPedidosCuenta = "SELECT precioUnitario FROM DetallesPedido WHERE idPedido = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(solicitarPedidosCuenta);
+            preparedStatement.setInt(1,idCuenta);
+            ResultSet resultado = preparedStatement.executeQuery();
+            while (resultado.next()) {
+                total = total + resultado.getDouble("precioUnitario");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return total;
+    }
+
+    public void cerrarCuenta(int idCuenta){
+        String cerrarCuenta = "INSERT INTO Transacciones(tipo,motivo,monto) VALUES('ingreso',?,?)";
+        String sqlCambiarEstadoCuenta = "UPDATE Pedido SET estadoCuenta = 'pagada',horaLiberacion = ?, totalPagar = ? WHERE id_pedido = ?";
+        LocalTime hora = LocalTime.now();
+        try {
+            PreparedStatement cambiarEstadoCuenta = connection.prepareStatement(sqlCambiarEstadoCuenta);
+            cambiarEstadoCuenta.setObject(1,hora);
+            cambiarEstadoCuenta.setDouble(2,totalCuenta(idCuenta));
+            cambiarEstadoCuenta.setInt(3,idCuenta);
+            cambiarEstadoCuenta.execute();
+
+            PreparedStatement preparedStatement = connection.prepareStatement(cerrarCuenta);
+            preparedStatement.setString(1, "cuenta cerrada id: " + idCuenta);
+            preparedStatement.setDouble(2,totalCuenta(idCuenta));
+            preparedStatement.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void liberarMesa(int idMesa){
+        String sqlLiberar = "UPDATE Mesa SET estadoMesa = 'libre' WHERE id_mesa = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlLiberar);
+            preparedStatement.setInt(1, idMesa);
+            preparedStatement.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void liberarMesero(int idMesero){
+        String sqlLiberar = "UPDATE Empleado SET estadoTrabajo = 'libre' WHERE id_empleado = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sqlLiberar);
+            preparedStatement.setInt(1, idMesero);
+            preparedStatement.execute();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

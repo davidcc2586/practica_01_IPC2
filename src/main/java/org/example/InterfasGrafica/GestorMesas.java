@@ -50,6 +50,7 @@ public class GestorMesas {
             }
             actual = actual.getSiguiente();
         }
+
     }
 
     public void eliminarMesa(int identificador){
@@ -71,6 +72,7 @@ public class GestorMesas {
         Nodo<FichaMesa> actual = fichaMesaFila.getPrimero();
         contenedorMesas.removeAll();
         while (actual != null){
+            actual.getDato().actualizarEstado();
             dibujarFicha(actual.getDato());
             actual = actual.getSiguiente();
         }
@@ -89,6 +91,10 @@ public class GestorMesas {
         gridBagConstraints.gridy = cantidad / 3;
 
         contenedorMesas.add(fichaMesa.getFichaMesa(), gridBagConstraints);
+    }
+
+    public void eliminarMesasVisuales(){
+        contenedorMesas.removeAll();
     }
 
     public JScrollPane getScrollPane() {

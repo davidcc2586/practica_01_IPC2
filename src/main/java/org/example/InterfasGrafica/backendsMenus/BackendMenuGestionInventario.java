@@ -102,8 +102,7 @@ public class BackendMenuGestionInventario {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int identificador = producto.getIdentificador();
-                    producto.ingresarProducto(Integer.parseInt(jTextField.getText()));
-                    gestorInventario.actualizarProducto(identificador);
+                    gestorInventario.actualizarProducto(identificador,Integer.parseInt(jTextField.getText()));
                     inventarioDB.ingresarCantidaInsumos(identificador,producto.getCantidadProducto(),Integer.parseInt(jTextField.getText()));
 
                     cantidadStock.setText(String.valueOf(producto.getCantidadProducto()));
@@ -137,9 +136,9 @@ public class BackendMenuGestionInventario {
     //ventana NO.3
     public void ingresarNuevoProducto(){
         JInternalFrame internalFrame = new JInternalFrame("Agregar Nuevo Insumo", true, true, true, true);
-        internalFrame.setSize(1000, 500);
-        int x = (panelPrincipal.getWidth()-1000) / 2;
-        int y = (panelPrincipal.getHeight()-500) / 2;
+        internalFrame.setSize(600, 200);
+        int x = (panelPrincipal.getWidth()-600) / 2;
+        int y = (panelPrincipal.getHeight()-200) / 2;
         internalFrame.setLocation(x, y);
         internalFrame.setVisible(true);
 
@@ -305,5 +304,10 @@ public class BackendMenuGestionInventario {
             copia.agregarDato(actual.getDato());
             actual = actual.getSiguiente();
         }
+    }
+
+
+    public GestorInventario getGestorInventario() {
+        return gestorInventario;
     }
 }

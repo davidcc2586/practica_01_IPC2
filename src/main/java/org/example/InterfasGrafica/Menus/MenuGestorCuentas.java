@@ -1,6 +1,8 @@
 package org.example.InterfasGrafica.Menus;
 
+import org.example.InterfasGrafica.backendsMenus.BackendMenuGestionInventario;
 import org.example.InterfasGrafica.backendsMenus.BackendMenuGestorCuentas;
+import org.example.InterfasGrafica.backendsMenus.BackendMenuGestorMesa;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,9 +12,9 @@ import java.sql.Connection;
 public class MenuGestorCuentas extends MenuDeBarra{
 
     protected BackendMenuGestorCuentas backendMenuGestorCuentas;
-    public MenuGestorCuentas(JDesktopPane panelPrincipal, Connection connection) {
+    public MenuGestorCuentas(JDesktopPane panelPrincipal, Connection connection, BackendMenuGestorMesa backendMenuGestorMesa, BackendMenuGestionInventario backendMenuGestionInventario) {
         super(panelPrincipal, connection, "Gestion de Cuentas");
-         backendMenuGestorCuentas = new BackendMenuGestorCuentas(connection,panelPrincipal);
+         backendMenuGestorCuentas = new BackendMenuGestorCuentas(connection,panelPrincipal, backendMenuGestorMesa,backendMenuGestionInventario);
     }
 
     @Override

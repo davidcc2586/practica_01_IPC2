@@ -31,7 +31,6 @@ public class BackendMenuGestionNominas {
         gestorNomina = new GestorNomina();
         nominaDB = new NominaDB(connection, this);
         nominaDB.agregarNominasBaseDatos();
-        System.out.println(nominasFila.getTamañoFila());
     }
 
     //Ventana NO.1
@@ -87,10 +86,10 @@ public class BackendMenuGestionNominas {
         botonActualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JInternalFrame solicitarNuevaFecha = new JInternalFrame("Actualizar Fecha");
-                solicitarNuevaFecha.setSize(300, 200);
+                JInternalFrame solicitarNuevaFecha = new JInternalFrame("Actualizar Fecha", true,true,true,true);
+                solicitarNuevaFecha.setSize(300, 150);
                 int x = (panelPrincipal.getWidth()-300) / 2;
-                int y = (panelPrincipal.getHeight()-200) / 2;
+                int y = (panelPrincipal.getHeight()-150) / 2;
                 solicitarNuevaFecha.setLocation(x,y);
                 solicitarNuevaFecha.setVisible(true);
 
@@ -112,45 +111,54 @@ public class BackendMenuGestionNominas {
                 botonListo.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        fechaActual = nuevaFechaTexto.getText();
 
+                        fechaActual = nuevaFechaTexto.getText();
                         try {
                             LocalDate fechaIngresada = LocalDate.parse(fechaActual);
                             fecha.setText(fechaActual);
-
-                            int año = fechaIngresada.getYear();
-                            int mes = fechaIngresada.getMonthValue();
-
-                            LocalDate fechaQuincenaInicio = LocalDate.of(año,mes,10);
-                            LocalDate fechaQuincenaFinal = LocalDate.of(año,mes,15);
-                            LocalDate fechaFinMesInicio = LocalDate.of(año,mes,25);
-                            LocalDate fechaFinMesfin = fechaIngresada.withDayOfMonth(fechaIngresada.lengthOfMonth());
-
-                            if(!fechaIngresada.isBefore(fechaQuincenaInicio) && !fechaIngresada.isAfter(fechaQuincenaFinal)){
-                                //crearNomina del pago de quincena
+                            int dia = fechaIngresada.getDayOfMonth();
+                            if(dia == 1){
                                 Nodo<Empleado> actual = nominaDB.empleadosActivos().getPrimero();
-
                                 while(actual != null){
                                     nominaDB.agregarNuevaNomina(actual.getDato().getIdEmpleado(), "quincena", fechaActual);
                                     actual = actual.getSiguiente();
                                 }
-
-                            } else if(!fechaIngresada.isBefore(fechaFinMesInicio) && !fechaIngresada.isAfter(fechaFinMesfin)){
-                                //crear nomina del pago del fin de mes
-
-                                Nodo<Empleado> actual = nominaDB.empleadosActivos().getPrimero();
-
+                            } else if(dia == 10){
+                                Nodo<Nomina> actual = nominasFila.getPrimero();
                                 while(actual != null){
-                                    nominaDB.agregarNuevaNomina(actual.getDato().getIdEmpleado(), "fin de mes",fechaActual);
+                                    if(actual.getDato().getEstado().equalsIgnoreCase("pendiente") && actual.getDato().getTipo().equalsIgnoreCase("quincena")){
+                                        nominaDB.pagar(actual.getDato().getIdEmpleado(), actual.getDato().getTipo());
+                                        nominaDB.actualizarEstadoNomina(actual.getDato().getIdNomina());
+                                        actual.getDato().setEstado("pagado");
+                                    }
+                                    actual = actual.getSiguiente();
+                                }
+                                gestorNomina.volverListarNominas(nominasFila);
+                            } else if(dia == 16){
+                                Nodo<Empleado> actual = nominaDB.empleadosActivos().getPrimero();
+                                while(actual != null){
+                                    nominaDB.agregarNuevaNomina(actual.getDato().getIdEmpleado(), "fin de mes", fechaActual);
                                     actual = actual.getSiguiente();
                                 }
 
+                            } else if(dia == 25){
+
+                                Nodo<Nomina> actual = nominasFila.getPrimero();
+                                while(actual != null){
+                                    if(actual.getDato().getEstado().equalsIgnoreCase("pendiente") && actual.getDato().getTipo().equalsIgnoreCase("fin de mes")){
+                                        nominaDB.pagar(actual.getDato().getIdEmpleado(), actual.getDato().getTipo());
+                                        nominaDB.actualizarEstadoNomina(actual.getDato().getIdNomina());
+                                        actual.getDato().setEstado("pagado");
+                                    }
+                                    actual = actual.getSiguiente();
+                                }
+                                gestorNomina.volverListarNominas(nominasFila);
                             }
 
                             solicitarNuevaFecha.dispose();
 
                         } catch(DateTimeException ex) {
-                            JOptionPane.showMessageDialog(solicitarNuevaFecha,"La fecha ingresada no es valida. Use el formato YYYY-MM-DD");
+                            JOptionPane.showMessageDialog(solicitarNuevaFecha, "La fecha ingresada no es valida. Use el formato YYYY-MM-DD");
                         }
                     }
                 });
@@ -164,6 +172,12 @@ public class BackendMenuGestionNominas {
                 contenedorBotenes.add(Box.createVerticalStrut(10));
 
                 solicitarNuevaFecha.add(contenedorBotenes);
+
+                try{
+                    internalFrame.setSelected(true);
+                }catch(java.beans.PropertyVetoException ex){
+                    ex.printStackTrace();
+                }
                 panelPrincipal.add(solicitarNuevaFecha);
             }
         });

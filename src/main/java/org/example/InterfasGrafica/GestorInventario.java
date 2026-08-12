@@ -30,10 +30,11 @@ public class GestorInventario {
         jPanel.revalidate();
     }
 
-    public void actualizarProducto(int identificador){
+    public void actualizarProducto(int identificador, int cantidad){
         Nodo<FichaProducto> actual = fichasprudcto.getPrimero();
         while (actual != null){
             Producto producto = actual.getDato().getProducto();
+            producto.ingresarProducto(cantidad);
             if(identificador == producto.getIdentificador()){
                 actual.getDato().actualizarficha();
                 break;

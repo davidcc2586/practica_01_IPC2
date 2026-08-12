@@ -40,7 +40,7 @@ public class VentanaPrincipal extends JFrame {
         menuGestionNominas = new MenuGestionNominas(jDesktopPane, connection);
         menuGestionInventario = new MenuGestionInventario(jDesktopPane, connection);
         menuGestionMenu = new MenuGestionMenu(jDesktopPane, connection);
-        menuGestorCuentas = new MenuGestorCuentas(jDesktopPane, connection);
+        menuGestorCuentas = new MenuGestorCuentas(jDesktopPane, connection, menuControlMesa.getBackendMenuGestorMesa(),menuGestionInventario.getBackendMenuGestionInventario());
 
         jMenuBar.add(menuGestionPersonal.getjMenu());
         jMenuBar.add(menuGestionNominas.getjMenu());

@@ -68,4 +68,8 @@ public class MenuGestionInventario extends MenuDeBarra {
     public  void eliminarProducto(){
         backendMenuGestionInventario.eliminarProducto();
     }
+
+    public BackendMenuGestionInventario getBackendMenuGestionInventario() {
+        return backendMenuGestionInventario;
+    }
 }

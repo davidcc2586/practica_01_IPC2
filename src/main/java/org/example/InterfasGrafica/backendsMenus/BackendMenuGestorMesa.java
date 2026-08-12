@@ -192,6 +192,10 @@ public class BackendMenuGestorMesa {
             gestorMesas.actualizarMesa(identificador);
             copiarFilas(mesas, mesasBaseDatos);
         }
+        mesas.limpiarFila();
+        gestorMesas.eliminarMesasVisuales();
+        mesaDB.agregarMesasBaseDatos();
+        //volver a pintar todas las fichas
     }
 
     public void copiarFilas(Fila<Mesa> origanal, FilaEntidadCafe copiar){
@@ -201,5 +205,9 @@ public class BackendMenuGestorMesa {
             copiar.agregarDato(actual.getDato());
             actual = actual.getSiguiente();
         }
+    }
+
+    public GestorMesas getGestorMesas() {
+        return gestorMesas;
     }
 }

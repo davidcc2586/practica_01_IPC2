@@ -56,4 +56,7 @@ public class MenuGestorMesa extends MenuDeBarra {
         backendMenuGestorMesa.eliminarMesa();
     }
 
+    public BackendMenuGestorMesa getBackendMenuGestorMesa() {
+        return backendMenuGestorMesa;
+    }
 }

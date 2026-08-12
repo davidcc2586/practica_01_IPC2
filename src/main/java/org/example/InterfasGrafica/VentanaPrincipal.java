@@ -14,6 +14,7 @@ public class VentanaPrincipal extends JFrame {
     protected MenuGestionInventario menuGestionInventario;
     protected MenuGestionMenu menuGestionMenu;
     protected MenuGestorMesa menuControlMesa;
+    protected MenuGestorCuentas menuGestorCuentas;
     protected JMenuBar jMenuBar;
     private Connection connection;
 
@@ -39,13 +40,14 @@ public class VentanaPrincipal extends JFrame {
         menuGestionNominas = new MenuGestionNominas(jDesktopPane, connection);
         menuGestionInventario = new MenuGestionInventario(jDesktopPane, connection);
         menuGestionMenu = new MenuGestionMenu(jDesktopPane, connection);
+        menuGestorCuentas = new MenuGestorCuentas(jDesktopPane, connection);
 
         jMenuBar.add(menuGestionPersonal.getjMenu());
         jMenuBar.add(menuGestionNominas.getjMenu());
         jMenuBar.add(menuGestionInventario.getjMenu());
         jMenuBar.add(menuGestionMenu.getjMenu());
         jMenuBar.add(menuControlMesa.getjMenu());
-
+        jMenuBar.add(menuGestorCuentas.getjMenu());
         this.setJMenuBar(jMenuBar);
     }
 

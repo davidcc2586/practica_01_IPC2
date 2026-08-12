@@ -10,6 +10,7 @@ CREATE TABLE Empleado (
     salario DECIMAL(8,2) NOT NULL,
     fechaContratacion DATE NOT NULL,
     estado ENUM ('activo', 'inactivo') DEFAULT 'activo',
+    estadoTrabajo ENUM ('libre','ocupado') DEFAULT 'libre',
     direcionImagen VARCHAR(50) DEFAULT '/Imagenes/empleado.png'
 );
 CREATE TABLE Mesa(
@@ -38,7 +39,7 @@ CREATE TABLE Pedido(
     idMesero INT NOT NULL,
     idMesa INT NOT NULL,
     fecha DATE NOT NULL,
-    horaOcuapacion TIME not null,
+    horaOcupacion TIME not null,
     horaLiberacion TIME,
     estadoCuenta ENUM ('abierta', 'pagada') DEFAULT 'abierta',
     totalPagar DECIMAL(10,2),
@@ -46,11 +47,10 @@ CREATE TABLE Pedido(
     FOREIGN KEY (idMesero) REFERENCES Empleado(id_empleado),
     FOREIGN KEY (idMesa) REFERENCES Mesa(id_mesa)
 );
-CREATE TABLE DetallePedido(
+CREATE TABLE DetallesPedido(
     id_detalle INT AUTO_INCREMENT PRIMARY KEY,
     idPedido int NOT NULL,
     idProducto INT NOT NULL,
-    cantidad int NOT NULL,
     precioUnitario DECIMAl(10,2) not null ,
     FOREIGN KEY (idProducto) REFERENCES Menu(id_producto),
     FOREIGN KEY (idPedido) REFERENCES Pedido(id_pedido)

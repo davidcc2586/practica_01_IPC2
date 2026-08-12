@@ -13,6 +13,7 @@ public class Empleado extends EntidadCafe {
     protected double salario;
     protected LocalDate fechaContratacion;
     protected String estado;
+    protected String estadoTrabajo;
     protected String direccionImagen;
 
     public Empleado(int idEmpleado, String DPI, String nombre,String apellido, String rolEmpleado, String jornadaLaboral, double salario, LocalDate fechaContratacion, String estado, String direccionImagen) {
@@ -26,6 +27,21 @@ public class Empleado extends EntidadCafe {
         this.salario = salario;
         this.fechaContratacion = fechaContratacion;
         this.estado = estado;
+        this.direccionImagen = direccionImagen;
+    }
+
+    public Empleado(int idEmpleado, String DPI, String nombre,String apellido, String rolEmpleado, String jornadaLaboral, double salario, LocalDate fechaContratacion, String estado, String estadoTrabajo, String direccionImagen) {
+        super(idEmpleado, nombre);
+        this.idEmpleado = idEmpleado;
+        this.DPI = DPI;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.rolEmpleado = rolEmpleado;
+        this.jornadaLaboral = jornadaLaboral;
+        this.salario = salario;
+        this.fechaContratacion = fechaContratacion;
+        this.estado = estado;
+        this.estadoTrabajo = estadoTrabajo;
         this.direccionImagen = direccionImagen;
     }
 

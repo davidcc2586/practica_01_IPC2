@@ -6,6 +6,7 @@ import org.example.InterfasGrafica.backendsMenus.BackendMenuGestionInventario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class InventarioDB {
 
@@ -80,7 +81,8 @@ public class InventarioDB {
 
     public void registrarEgresos(int identificador, int nuevaCantidad){
         String solicitarNombreCosto = "select nombre,costoInsumo from Inventario WHERE id_insumo = ?;";
-        String ingresarEgresos = "INSERT INTO Transacciones(tipo,motivo,monto) VALUES(?,?,?)";
+        LocalDate fecha = LocalDate.now();
+        String ingresarEgresos = "INSERT INTO Transacciones(tipo,motivo,monto, fecha) VALUES(?,?,?,?)";
         try {
             PreparedStatement datosProducto = connection.prepareStatement(solicitarNombreCosto);
             datosProducto.setInt(1,identificador);
@@ -91,6 +93,7 @@ public class InventarioDB {
             egresos.setString(1,"egreso");
             egresos.setString(2,"Compra de " + resultadoDatosProducto.getString("nombre"));
             egresos.setDouble(3,-(nuevaCantidad * resultadoDatosProducto.getDouble("costoInsumo")));
+            egresos.setObject(4,fecha);
             egresos.execute();
 
         } catch (Exception e) {

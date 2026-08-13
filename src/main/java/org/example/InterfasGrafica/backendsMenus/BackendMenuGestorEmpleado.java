@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class BackendMenuGestorEmpleado {
 
@@ -96,16 +97,27 @@ public class BackendMenuGestorEmpleado {
         jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                String dpiTexto = dpi.getText();
-                String nombreTexto = nombre.getText();
-                String apellidoTexto = apellido.getText();
-                String rolTexto = (String) rol.getSelectedItem();
-                String jornadaTexto = (String) jornadaLaboral.getSelectedItem();
-                double salarioValor = Double.parseDouble(salario.getText());
-                LocalDate fecha = LocalDate.parse(fechaContratacion.getText());
-                empleadoDB.agregarNuevoEmpleado(dpiTexto, nombreTexto, apellidoTexto, rolTexto, jornadaTexto, salarioValor, fecha);
-                internalFrame.dispose();
+                if(!empleadoDB.verificarExisteDpi(dpi.getText())){
+                    String dpiTexto = dpi.getText();
+                    if (dpiTexto.length() == 13){
+                        String nombreTexto = nombre.getText();
+                        String apellidoTexto = apellido.getText();
+                        String rolTexto = (String) rol.getSelectedItem();
+                        String jornadaTexto = (String) jornadaLaboral.getSelectedItem();
+                        double salarioValor = Double.parseDouble(salario.getText());
+                        try {
+                            LocalDate fecha = LocalDate.parse(fechaContratacion.getText());
+                            empleadoDB.agregarNuevoEmpleado(dpiTexto,nombreTexto, apellidoTexto, rolTexto, jornadaTexto, salarioValor, fecha);
+                            internalFrame.dispose();
+                        } catch (DateTimeParseException ex) {
+                            JOptionPane.showMessageDialog(internalFrame, "La fecha debe estar en formato yyyy-MM-dd");
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(internalFrame, "Dpi invalido");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(internalFrame, "Dpi existente en base de datos");
+                }
             }
         });
         jPanel.add(Box.createHorizontalStrut(10));

@@ -75,6 +75,7 @@ CREATE TABLE Transacciones(
     id_transaccion INT AUTO_INCREMENT PRIMARY KEY,
     tipo ENUM('ingreso', 'egreso') NOT NULL,
     motivo VARCHAR(150) NOT NULL,
+    fecha DATE NOT NULL,
     monto DOUBLE NOT NULL
 );
 

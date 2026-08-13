@@ -8,6 +8,7 @@ import org.example.InterfasGrafica.backendsMenus.BackendMenuGestionNominas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class NominaDB {
 
@@ -56,7 +57,8 @@ public class NominaDB {
 
     public void pagar(int idEmpleado, String tipo){
         String solicitarSalarioEmpleado = "SELECT salario FROM Empleado WHERE id_empleado = ?";
-        String sqlPagar = "INSERT INTO Transacciones(tipo, motivo, monto) VALUES (?,?,?)";
+        LocalDate fecha = LocalDate.now();
+        String sqlPagar = "INSERT INTO Transacciones(tipo, motivo, monto, fecha) VALUES (?,?,?,?)";
         double montoPagar = 0;
 
         try{
@@ -75,6 +77,7 @@ public class NominaDB {
             pagar.setString(1,"egreso");
             pagar.setString(2,"Pago empleado con id: " + idEmpleado);
             pagar.setDouble(3,-montoPagar);
+            pagar.setObject(4,fecha);
             pagar.execute();
 
         }catch(Exception e){

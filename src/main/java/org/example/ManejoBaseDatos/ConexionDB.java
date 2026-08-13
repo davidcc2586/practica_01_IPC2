@@ -1,5 +1,6 @@
 package org.example.ManejoBaseDatos;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,28 +11,37 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ConexionDB {
+
     private final String HOST = "localhost";
     private final String PUERTO = "3306";
     private final String URL = "jdbc:mysql://" + HOST + ":" + PUERTO ; //   jdbc:mysql://localhost:3306
     private final String URLBASEDATOS = URL + "/JavaBeansCafe";
-    private final String USUARIO = "josue";
-    private final String PASSWORD = "josue100000";
+    private String usuario;
+    private String contraseña;
 
-    public ConexionDB(){
-
+    public ConexionDB(String usuario,String clave){
+        this.usuario = usuario;
+        this.contraseña = clave;
+        try {
+            Connection connection = conexion(true);
+            connection.close();
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrecto", "Error", JOptionPane.WARNING_MESSAGE);
+            System.exit(0);
+        }
     }
 
     public  Connection conexion(boolean nuevaBasedatos) throws SQLException {
         if (nuevaBasedatos) {
-            return DriverManager.getConnection(URL, USUARIO, PASSWORD);
+            return DriverManager.getConnection(URL, usuario, contraseña);
         } else {
-            return DriverManager.getConnection(URLBASEDATOS, USUARIO, PASSWORD);
+            return DriverManager.getConnection(URLBASEDATOS, usuario, contraseña);
         }
     }
 
     public Connection obtenerConexion(){
         try {
-            ConexionDB conexionDB = new ConexionDB();
+            ConexionDB conexionDB = new ConexionDB(usuario, contraseña);
             return conexionDB.conexion(false);
         }catch (SQLException e){
             Connection connection = conexionNuevaBaseDatos();
@@ -43,7 +53,7 @@ public class ConexionDB {
     public Connection conexionNuevaBaseDatos(){
         Connection connection;
         try {
-            ConexionDB conexionDB = new ConexionDB();
+            ConexionDB conexionDB = new ConexionDB(usuario, contraseña);
             connection = conexionDB.conexion(true);
             ejecutarInstruccionesSQL("/BaseDatos/CrearBaseDatos.txt", connection);
             connection.close();

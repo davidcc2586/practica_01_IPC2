@@ -195,14 +195,14 @@ public class BackendMenuGestorCuentas {
         fila.add(crearEtiqueta(String.valueOf(cuenta.getFecha())));
         fila.add(crearEtiqueta(String.valueOf(cuenta.getHoraEntrada())));
         fila.add(crearEtiqueta(cuenta.getEstado()));
-        JButton botonDetallesCuenta = botonDetallesCuenta(cuenta);
+        JButton botonDetallesCuenta = botonDetallesCuenta(cuenta,true);
         JButton botonPagarCuenta = botonPagarCuenta(cuenta,fila);
         fila.add(botonDetallesCuenta);
         fila.add(botonPagarCuenta);
         jPanelCuentasAbiertas.add(fila);
     }
 
-    public JButton botonDetallesCuenta(Cuenta cuenta){
+    public JButton botonDetallesCuenta(Cuenta cuenta,boolean agregar){
         JButton boton = new JButton("Detalles");
         boton.addActionListener(e -> {
 
@@ -261,36 +261,35 @@ public class BackendMenuGestorCuentas {
                 i++;
                 nodoMenu = nodoMenu.getSiguiente();
             }
-            JComboBox<String> comboMenus = new JComboBox<>(nombresMenus);
-            JButton botonAgregar = new JButton("Agregar");
-            botonAgregar.addActionListener(_ -> {
-
-                String nombre = (String) comboMenus.getSelectedItem();
-                int indice = menus.buscarElementoIndice(nombre);
-
-                if(nombre == null || nombre.isBlank()){
-                    return;
-                } else if (cuentaDB.restarInsumosPorMenu(indice)) {
-                    Menu menu = menusDisponibles.buscarElemento(indice);
-                    if (menu == null) {
-                        return;
-                    }
-                    cuentaDB.agregarDetallesCuenta(cuenta.getIdCuenta(),menu.getIdMenu());
-                    panelMenus.add(new FichaMenu(menu).getFichaMenu());
-                    panelMenus.revalidate();
-                    panelMenus.repaint();
-                } else {
-                    JOptionPane.showMessageDialog(panelPrincipal, "Cantidad insuficiente de Insumos");
-                }
-
-            });
-
-
             JPanel filaAgregar = new JPanel(new GridLayout(1, 3, 10, 0));
+            if(agregar){
+                JComboBox<String> comboMenus = new JComboBox<>(nombresMenus);
+                JButton botonAgregar = new JButton("Agregar");
+                botonAgregar.addActionListener(_ -> {
 
-            filaAgregar.add(comboMenus);
-            filaAgregar.add(botonAgregar);
+                    String nombre = (String) comboMenus.getSelectedItem();
+                    int indice = menus.buscarElementoIndice(nombre);
 
+                    if (nombre == null || nombre.isBlank()) {
+                        return;
+                    } else if (cuentaDB.restarInsumosPorMenu(indice)) {
+                        Menu menu = menusDisponibles.buscarElemento(indice);
+                        if (menu == null) {
+                            return;
+                        }
+                        cuentaDB.agregarDetallesCuenta(cuenta.getIdCuenta(), menu.getIdMenu());
+                        panelMenus.add(new FichaMenu(menu).getFichaMenu());
+                        panelMenus.revalidate();
+                        panelMenus.repaint();
+                    } else {
+                        JOptionPane.showMessageDialog(panelPrincipal, "Cantidad insuficiente de Insumos");
+                    }
+
+                });
+
+                filaAgregar.add(comboMenus);
+                filaAgregar.add(botonAgregar);
+            }
 
             panelPrincipalDetalles.add(Box.createVerticalStrut(10));
             panelPrincipalDetalles.add(crearEtiqueta("Información de la cuenta"));
@@ -302,8 +301,10 @@ public class BackendMenuGestorCuentas {
             panelPrincipalDetalles.add(crearEtiqueta("Menús solicitados:"));
             panelPrincipalDetalles.add(Box.createVerticalStrut(10));
             panelPrincipalDetalles.add(scrollMenus);
-            panelPrincipalDetalles.add(Box.createVerticalStrut(10));
-            panelPrincipalDetalles.add(filaAgregar);
+            if (agregar) {
+                panelPrincipalDetalles.add(Box.createVerticalStrut(10));
+                panelPrincipalDetalles.add(filaAgregar);
+            }
             panelPrincipalDetalles.add(Box.createVerticalStrut(10));
             ventana.setContentPane(panelPrincipalDetalles);
 
@@ -382,17 +383,17 @@ public class BackendMenuGestorCuentas {
         JPanel panelPrincipalCuentasCerradas = new JPanel();
         panelPrincipalCuentasCerradas.setLayout(new BoxLayout(panelPrincipalCuentasCerradas,BoxLayout.Y_AXIS));
 
-        JPanel cabecera = new JPanel(new GridLayout(1, 3));
+        JPanel encabezado = new JPanel(new GridLayout(1, 3));
         Dimension dimension = new Dimension(440, 30);
-        cabecera.setPreferredSize(dimension);
-        cabecera.setMaximumSize(dimension);
-        cabecera.setMinimumSize(dimension);
-        cabecera.add(crearEtiqueta(""));
-        cabecera.add(crearEtiqueta("Cuentas Cerradas"));
-        cabecera.add(crearEtiqueta(""));
+        encabezado.setPreferredSize(dimension);
+        encabezado.setMaximumSize(dimension);
+        encabezado.setMinimumSize(dimension);
+        encabezado.add(crearEtiqueta(""));
+        encabezado.add(crearEtiqueta("Cuentas Cerradas"));
+        encabezado.add(crearEtiqueta(""));
 
 
-        panelPrincipalCuentasCerradas.add(cabecera);
+        panelPrincipalCuentasCerradas.add(encabezado);
         panelPrincipalCuentasCerradas.add(jscrollPanelCuentaCerrada());
 
 
@@ -434,7 +435,7 @@ public class BackendMenuGestorCuentas {
         fila.add(crearEtiqueta(String.valueOf(cuenta.getHoraEntrada())));
         fila.add(crearEtiqueta(String.valueOf(cuenta.getHoraSalida())));
         fila.add(crearEtiqueta(cuenta.getEstado()));
-        JButton botonDetallesCuenta = botonDetallesCuenta(cuenta);
+        JButton botonDetallesCuenta = botonDetallesCuenta(cuenta,false);
         fila.add(botonDetallesCuenta);
         jPanelCuentasCerrada.add(fila);
     }

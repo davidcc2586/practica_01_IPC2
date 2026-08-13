@@ -76,4 +76,23 @@ CREATE TABLE Transacciones(
     tipo ENUM('ingreso', 'egreso') NOT NULL,
     motivo VARCHAR(150) NOT NULL,
     monto DOUBLE NOT NULL
-)
+);
+
+INSERT INTO Menu(nombreProducto,categoria,precio,direccionImagen)
+VALUES('Café Moca','bebida fria',15,'/Imagenes/cafeMoca.jpeg');
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(5,1,18);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(11,1,1);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(5,1,18);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(6,1,20);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(4,1,10);
+INSERT INTO Menu(nombreProducto,categoria,precio,direccionImagen)
+VALUES('Fresas con Crema','postre',20,'/Imagenes/fresasCrema.jpg');
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(9,2,30);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(7,2,10);

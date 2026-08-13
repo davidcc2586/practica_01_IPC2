@@ -7,4 +7,44 @@ VALUE (5);
 INSERT INTO Mesa(capacidad)
 VALUE (4);
 INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
-value ('Pan Integral', 'u', 50, 20,1.25, '/Imagenes/empleado.png');
+VALUE ('Pan Integral', 'unidad', 0, 20, 1.25, '/Imagenes/panIntegral.jpeg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Té Matcha', 'gramos', 0, 500, 0.15, '/Imagenes/teMatcha.jpg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Agua', 'litro', 0, 20, 0.50, '/Imagenes/agua.jpeg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Harina', 'gramos', 0, 5000, 0.02, '/Imagenes/arina.jpeg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Azúcar', 'gramos', 0, 3000, 0.02, '/Imagenes/azucar.jpg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Granos de café', 'gramos', 0, 2000, 0.08, '/Imagenes/cafe.jpg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Chocolate', 'gramos', 0, 2000, 0.05, '/Imagenes/chocolate.jpg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Crema Batida', 'gramos', 0, 500, 0.05, '/Imagenes/Cremabatida.jpeg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Durazno', 'unidad', 0, 20, 1.25, '/Imagenes/duraznos.png');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Fresa', 'unidad', 0, 30, 0.75, '/Imagenes/fresas.jpeg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Huevos', 'unidad', 0, 30, 1.25, '/Imagenes/huevos.jpeg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Leche', 'litro', 0, 20, 8.00, '/Imagenes/leche.jpeg');
+INSERT INTO Inventario(nombre, unidadMedida, cantidadStock, stockMinimo, costoInsumo, direccionImagen)
+VALUE ('Manzana', 'unidad', 0, 20, 1.25, '/Imagenes/manzanas.jpg');
+INSERT INTO Menu(nombreProducto,categoria,precio,direccionImagen)
+VALUES('Café Moca','bebida fria',15,'/Imagenes/cafeMoca.jpeg');
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(5,1,18);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(11,1,1);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(6,1,20);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(4,1,10);
+INSERT INTO Menu(nombreProducto,categoria,precio,direccionImagen)
+VALUES('Fresas con Crema','postre',20,'/Imagenes/fresasCrema.jpg');
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(9,2,30);
+INSERT INTO ProductoInsumo(id_insumo,id_producto,cantidad)
+VALUES(7,2,10);

@@ -28,6 +28,10 @@ public class Nodo<T> {
         this.siguiente = siguiente;
     }
 
+    public void setDato(T dato) {
+        this.dato = dato;
+    }
+
     public void setAnterior(Nodo<T> anterior) {
         this.anterior = anterior;
     }

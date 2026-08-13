@@ -268,7 +268,8 @@ public class CuentaDB {
     }
 
     public void cerrarCuenta(int idCuenta){
-        String cerrarCuenta = "INSERT INTO Transacciones(tipo,motivo,monto) VALUES('ingreso',?,?)";
+        LocalDate fecha = LocalDate.now();
+        String cerrarCuenta = "INSERT INTO Transacciones(tipo,motivo,monto,fecha) VALUES('ingreso',?,?,?)";
         String sqlCambiarEstadoCuenta = "UPDATE Pedido SET estadoCuenta = 'pagada',horaLiberacion = ?, totalPagar = ? WHERE id_pedido = ?";
         LocalTime hora = LocalTime.now();
         try {
@@ -281,6 +282,7 @@ public class CuentaDB {
             PreparedStatement preparedStatement = connection.prepareStatement(cerrarCuenta);
             preparedStatement.setString(1, "cuenta cerrada id: " + idCuenta);
             preparedStatement.setDouble(2,totalCuenta(idCuenta));
+            preparedStatement.setObject(3,fecha);
             preparedStatement.execute();
         } catch (Exception e) {
             e.printStackTrace();

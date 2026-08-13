@@ -1,6 +1,8 @@
 package org.example.Herramientas;
 
 import org.example.EntidadeCafe.Menu;
+import org.example.EntidadeCafe.RankingMenu;
+import org.example.EntidadeCafe.Transaccion;
 
 import javax.swing.*;
 import java.io.File;
@@ -98,6 +100,135 @@ public class ManejoArchivosHTML {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public void escribirHTMLTransacciones(Fila<Transaccion> transacciones) {
+
+        String direccion = solicitarDireccionGuardar();
+
+        if (direccion != null) {
+
+            File archivo = new File(direccion);
+
+            try (FileWriter fileWriter = new FileWriter(archivo, StandardCharsets.UTF_8);
+                 PrintWriter writer = new PrintWriter(fileWriter)) {
+
+                writer.print("<!DOCTYPE html>\n");
+                writer.print("<html lang=\"es\">\n");
+                writer.print("<head>\n");
+                writer.print("<meta charset=\"UTF-8\">\n");
+                writer.print("<title>Reporte de Transacciones</title>\n");
+                writer.print("<style>\n");
+                writer.print("body { font-family: Arial, sans-serif; margin: 40px; }\n");
+                writer.print("h1 { text-align: center; }\n");
+                writer.print("table { width: 100%; border-collapse: collapse; }\n");
+                writer.print("th, td { border: 1px solid #999; padding: 10px; text-align: center; }\n");
+                writer.print("th { background-color: #5c3b28; color: white; }\n");
+                writer.print("</style>\n");
+                writer.print("</head>\n");
+                writer.print("<body>\n");
+
+                writer.print("<h1>Reporte de Transacciones</h1>\n");
+
+                writer.print("<table>\n");
+                writer.print("<tr>\n");
+                writer.print("<th>ID</th>\n");
+                writer.print("<th>Fecha</th>\n");
+                writer.print("<th>Motivo</th>\n");
+                writer.print("<th>Tipo</th>\n");
+                writer.print("<th>Monto</th>\n");
+                writer.print("</tr>\n");
+
+                Nodo<Transaccion> actual = transacciones.getPrimero();
+
+                while (actual != null) {
+
+                    Transaccion transaccion = actual.getDato();
+
+                    writer.print("<tr>\n");
+                    writer.printf("<td>%d</td>%n", transaccion.getIdReporte());
+                    writer.printf("<td>%s</td>%n", transaccion.getFecha());
+                    writer.printf("<td>%s</td>%n", transaccion.getMotivo());
+                    writer.printf("<td>%s</td>%n", transaccion.getTipo());
+                    writer.printf("<td>Q%.2f</td>%n", transaccion.getMonto());
+                    writer.print("</tr>\n");
+
+                    actual = actual.getSiguiente();
+                }
+
+                writer.print("</table>\n");
+                writer.print("</body>\n");
+                writer.print("</html>\n");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void escribirHTMLRanking(Fila<RankingMenu> rankingMenus) {
+        String direccion = solicitarDireccionGuardar();
+
+        if (direccion != null) {
+            File archivo = new File(direccion);
+
+            try (FileWriter fileWriter = new FileWriter(archivo, StandardCharsets.UTF_8);
+                 PrintWriter writer = new PrintWriter(fileWriter)) {
+
+                writer.print("<!DOCTYPE html>\n");
+                writer.print("<html lang=\"es\">\n");
+                writer.print("<head>\n");
+                writer.print("<meta charset=\"UTF-8\">\n");
+                writer.print("<title>Ranking de Menús</title>\n");
+                writer.print("<style>\n");
+                writer.print("body { font-family: Arial, sans-serif; background-color: #f5eee6; margin: 40px; }\n");
+                writer.print("h1 { text-align: center; color: #5c3b28; }\n");
+                writer.print("table { width: 100%; border-collapse: collapse; background-color: white; }\n");
+                writer.print("th { background-color: #5c3b28; color: white; padding: 12px; }\n");
+                writer.print("td { border: 1px solid #999; padding: 10px; text-align: center; }\n");
+                writer.print("</style>\n");
+                writer.print("</head>\n");
+                writer.print("<body>\n");
+
+                writer.print("<h1>Ranking de Menús Más Vendidos</h1>\n");
+
+                writer.print("<table>\n");
+                writer.print("<tr>\n");
+                writer.print("<th>Posición</th>\n");
+                writer.print("<th>Menú</th>\n");
+                writer.print("<th>Categoría</th>\n");
+                writer.print("<th>Precio</th>\n");
+                writer.print("<th>Vendidos</th>\n");
+                writer.print("</tr>\n");
+
+                Nodo<RankingMenu> actual = rankingMenus.getPrimero();
+                int posicion = 1;
+
+                while (actual != null) {
+                    RankingMenu rankingMenu = actual.getDato();
+                    Menu menu = rankingMenu.getMenu();
+
+                    writer.print("<tr>\n");
+                    writer.printf("<td>%d</td>%n", posicion);
+                    writer.printf("<td>%s</td>%n", menu.getNombre());
+                    writer.printf("<td>%s</td>%n", menu.getCategoria());
+                    writer.printf("<td>Q%.2f</td>%n", menu.getPrecio());
+                    writer.printf("<td>%d</td>%n", rankingMenu.getCantidadVendida());
+                    writer.print("</tr>\n");
+
+                    posicion++;
+                    actual = actual.getSiguiente();
+                }
+
+                writer.print("</table>\n");
+                writer.print("</body>\n");
+                writer.print("</html>\n");
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -80,4 +80,20 @@ public class EmpleadoDB {
             e.printStackTrace();
         }
     }
+
+    public boolean verificarExisteDpi(String dpi){
+        String sqlInstruccion = "SELECT * FROM Empleado";
+        try {
+            PreparedStatement consulta = connection.prepareStatement(sqlInstruccion);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                if(dpi.equalsIgnoreCase(resultado.getString("DPI"))){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
